@@ -60,7 +60,7 @@ function onCardClick(card, i) {
     // animate the card 'cover' after a 500ms delay
     setTimeout(function() {
         animateCoverUp(currentCard);
-    }, 400);
+    }, 300);
     // animate out the other cards
     animateOtherCards(currentCard, true);
     // add the open class to the page content
@@ -122,7 +122,7 @@ function animateCoverBack(card) {
         pageIsOpen = false;
         // remove the clicked class so the card animates back in
         currentCard.className = currentCard.className.replace(' clicked', '');
-    }, 301);
+    }, 201);
 }
 
 function setCoverPosition(cardPosition) {

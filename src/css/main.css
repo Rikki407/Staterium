@@ -15,12 +15,12 @@ body {
 }
 
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
     width: 47%;
     margin: 10px;
 }
 .badge-font {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin: 0 20px;
 }
 p {
@@ -35,9 +35,6 @@ p {
     box-sizing: border-box;
 }
 
-.column-1 {
-    padding-top: 100px;
-}
 
 .card {
     width: 92%;
@@ -81,14 +78,6 @@ p {
 
 .card-color-1 {
     background-color: #8f3985;
-}
-
-.card-color-2 {
-    background-color: #8daa91;
-}
-
-.card-color-3 {
-    background-color: #888da7;
 }
 
 /* The cover (expanding background) */
@@ -163,7 +152,7 @@ p {
   */
 
 .card {
-    transition: opacity 200ms linear 320ms, transform 200ms ease-out 320ms;
+    transition: opacity 200ms linear 320ms, transform 200ms ease-out 20ms;
 }
 
 .border {
@@ -203,7 +192,7 @@ p {
 }
 
 .cover {
-    transition: transform 300ms ease-in-out;
+    transition: transform 100ms ease-in-out;
 }
 
 .open-content {
@@ -213,7 +202,7 @@ p {
 .open-content.open {
     opacity: 1;
     pointer-events: all;
-    transition-delay: 1000ms;
+    transition-delay: 350ms;
 }
 
 /* 
