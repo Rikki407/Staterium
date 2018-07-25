@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RikkiStaterium</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+    crossorigin="anonymous">
+  <link href="css/main.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark black">
+    <a class="navbar-brand" href="/">
+
+      <img src="./RKLogo.png" width="50" height="50" alt="">
+
+      <span style="vertical-align: middle;color: #B49353">Rikki Staterium</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" href="/">Home</a>
+        <a class="nav-item nav-link active" href="/game">Game</a>
+        <a class="nav-item nav-link" href="/tokens">Tokens</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container nav justify-content-center" style="position: relative; top: 70px">
+    <div class="card">
+      <img class="card-img-top" src="https://www.designevo.com/res/templates/thumb_small/symmetrical-red-and-blue-polygon-company.png"
+        alt="Card image cap">
+      <div class="card-body justify-content-center">
+        <h4 class="card-title">Project A</h4>
+        <h5 class="card-subtitle mb-2 text-muted">Dream</h5>
+        <p class="card-text">Incididunt et veniam sint pariatur nisi qui voluptate irure. Quis eu sunt labore velit. Id consectetur aute eiusmod
+          nisi voluptate labore non non nulla do deserunt.</p>
+        <h5 class="card-subtitle mb-2 text-muted">Founder</h5>
+        <p class="card-text">Culpa deserunt veniam aute excepteur non pariatur proident eu. Adipisicing anim tempor eiusmod amet commodo reprehenderit
+          consectetur pariatur ex anim dolor dolore sit aute. Laborum do aliquip pariatur ea ipsum in nisi ad et labore voluptate.
+          Aute labore laborum qui ea est pariatur officia quis velit. Aute duis labore ex officia officia nulla qui culpa
+          aliquip nostrud veniam non. Adipisicing est consectetur occaecat nisi aliquip in aliquip.</p>
+        <div align="center" class="btn-group btn-group-lg" role="group" aria-label="Basic example" style="display: block;height: 100%">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#stakeModal"> &nbsp&nbspStake&nbsp&nbsp </button>
+          <button type="button" class="btn btn-primary">Unstake</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img class="card-img-top" src="https://www.designevo.com/res/templates/thumb_small/blue-wing-and-circle.png" alt="Card image cap">
+      <div class="card-body justify-content-center">
+        <h4 class="card-title">Project B</h4>
+        <h5 class="card-subtitle mb-2 text-muted">Dream</h5>
+        <p class="card-text">Adipisicing nostrud pariatur tempor minim veniam adipisicing velit. Mollit esse minim aliqua veniam ea quis eu deserunt
+          incididunt adipisicing ipsum nulla laboris est. Eu nostrud ea pariatur fugiat.</p>
+        <h5 class="card-subtitle mb-2 text-muted">Founder</h5>
+        <p class="card-text">Deserunt nostrud non ipsum reprehenderit laboris mollit. Enim est est exercitation cillum consequat in nostrud excepteur
+          eu laborum fugiat ad. Veniam excepteur aute commodo culpa proident pariatur. Eiusmod aliqua elit elit consequat
+          adipisicing commodo cupidatat elit excepteur quis mollit khjghvad kgdbjdjk kjsdbbad yeh akjhqa aheqe ahqedk excepteur
+          aute commodo culpa proident pariatur.</p>
+        <div align="center" class="btn-group btn-group-lg" role="group" aria-label="Basic example" style="display: block;">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#stakeModal"> &nbsp&nbspStake&nbsp&nbsp </button>
+          <button type="button" class="btn btn-primary">Unstake</button>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="margin-right: 20px">
+      <div class="card" style="width: 100%; background-color: rgb(38, 55, 94)">
+
+        <div class="btn-group btn-group-lg" role="group" aria-label="Basic example" align="center" style="display: block; margin: 2px">
+          <span class="badge badge-primary badge-font">
+            Account
+            <span class="badge badge-light" id="eth_account">0x2c2b9c9a4a25e24b174f26114e8926a9f2128fe4</span>
+          </span>
+          <span class="badge badge-primary badge-font">
+            Amount
+            <span class="badge badge-light" id="eth_amount">100</span>
+          </span>
+          <button type="button" class="btn btn-warning" disabled>Prev</button>
+          <button type="button" class="btn btn-danger">Stop</button>
+          <button type="button" class="btn btn-warning">Next</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="width: 100%;"></div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="stakeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Stake in Eth</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success">Stake</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer" class="container">
+      <nav class="navbar navbar-default navbar-fixed-bottom justify-content-center">
+        <div class="navbar-inner navbar-content-center text-center">
+          <p class="text-muted" credit>
+            <a href="http://www.startereum.com">Staterium</a> - &copy; 2018 -
+            <a href="https://www.github.com/Rikki407">Rikki407</a>
+          </p>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+    crossorigin="anonymous"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/dummy-matches.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

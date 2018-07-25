@@ -1,0 +1,24 @@
+body {
+    background: url("https://images.unsplash.com/photo-1481238613160-f39d2bd78dea?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5a0e846bc05a30438b5e08bab2fc5b43&auto=format&fit=crop&w=1050&q=80") no-repeat;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: rgb(37, 31, 32);
+}
+.black{
+    background-color: rgb(0, 0, 0);
+}
+.navbar{
+    padding: 0;
+    font-size: 1.1em;
+}
+
+.card{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 47%; 
+    margin: 10px;
+}
+.badge-font {
+    font-size: 1rem;
+    margin: 0 20px;
+}
