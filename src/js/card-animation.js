@@ -150,7 +150,7 @@ function scaleCoverToFillWindow(cardPosition) {
     // set the transform on the cover - it will animate because of the transition set on it in the CSS
     cover.style.transform =
         'scaleX(' +
-        scaleX/2 +
+        scaleX / 2 +
         ') scaleY(' +
         scaleY +
         ') translate3d(' +
