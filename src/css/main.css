@@ -1,10 +1,48 @@
 body {
-    background: url('https://images.unsplash.com/photo-1481238613160-f39d2bd78dea?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5a0e846bc05a30438b5e08bab2fc5b43&auto=format&fit=crop&w=1050&q=80')
-        no-repeat;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: rgb(37, 31, 32);
+	width: 100wh;
+	height: 90vh;
+	color: #fff;
+	background: linear-gradient(-45deg, #87189D, #F9B03D, #262626, #73537A);
+	background-size: 400% 400%;
+	-webkit-animation: Gradient 15s ease infinite;
+	-moz-animation: Gradient 15s ease infinite;
+	animation: Gradient 15s ease infinite;
+}
+
+@-webkit-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@-moz-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
 }
 .black {
     background-color: rgb(0, 0, 0);
@@ -20,7 +58,7 @@ body {
     margin: 10px;
 }
 .badge-font {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin: 0 20px;
 }
 p {
@@ -37,12 +75,10 @@ p {
 
 
 .card {
-    width: 92%;
-    max-width: 340px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
     position: relative;
-    background: #eb5160;
     color: #fff;
     cursor: pointer;
     margin-bottom: 60px;
@@ -61,29 +97,30 @@ p {
 
 .card h1 {
     position: relative;
-    padding: 190px 0px 100px 10px;
+    padding: 160px 0px 0px 30px;
     width: 90%;
 }
 
 .card > img {
-    width: 90%;
+    width: 65%;
     position: absolute;
-    top: -6%;
-    left: -6%;
+    top: -50px;
+    left: -50px;
 }
 
 .card-color-0 {
-    background-color: #eb5160;
+    background-color: #BA0734;
 }
 
 .card-color-1 {
-    background-color: #8f3985;
+    background-color: #104C51;
 }
+
 
 /* The cover (expanding background) */
 .cover {
     position: fixed;
-    background: #eb5160;
+    background: #BA0734;
     z-index: 100;
     transform-origin: 50% 50%;
 }
@@ -131,7 +168,7 @@ p {
 }
 
 .close-content span {
-    background: #222;
+    background: #F2A310;
     width: 30px;
     height: 6px;
     display: block;
@@ -168,7 +205,6 @@ p {
     transition: opacity 200ms linear 120ms, transform 200ms ease-in 120ms;
 }
 
-/* Clicked card */
 .card.clicked img {
     transform: translate3d(0px, -40px, 0px);
     opacity: 0;
@@ -205,9 +241,6 @@ p {
     transition-delay: 350ms;
 }
 
-/* 
-  ** Media Queries
-  */
 
 @media screen and (max-width: 600px) {
     .card-column {

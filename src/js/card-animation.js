@@ -93,7 +93,7 @@ function animateCoverUp(card) {
         window.scroll(0, 0);
         // set page to open
         pageIsOpen = true;
-    }, 300);
+    }, 400);
 }
 
 function animateCoverBack(card) {
@@ -122,7 +122,7 @@ function animateCoverBack(card) {
         pageIsOpen = false;
         // remove the clicked class so the card animates back in
         currentCard.className = currentCard.className.replace(' clicked', '');
-    }, 201);
+    }, 151);
 }
 
 function setCoverPosition(cardPosition) {
@@ -150,7 +150,7 @@ function scaleCoverToFillWindow(cardPosition) {
     // set the transform on the cover - it will animate because of the transition set on it in the CSS
     cover.style.transform =
         'scaleX(' +
-        scaleX +
+        scaleX/2 +
         ') scaleY(' +
         scaleY +
         ') translate3d(' +
