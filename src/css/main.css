@@ -26,6 +26,13 @@ body {
 p {
     line-height: 1.5;
 }
+.btn-next{
+    background-color: #6A7B8B; 
+    color: white;
+}
+.btn-next:hover{
+    background-color: #4F5257;
+}
 
 /* Cards */
 .card-column {
