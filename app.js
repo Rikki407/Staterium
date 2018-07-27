@@ -4,7 +4,7 @@ let express = require('express'),
     passport = require('passport'),
     mongoose = require('mongoose'),
     User = require('./models/User-model'),
-    localStatergy = require('passport-local'),
+    LocalStatergy = require('passport-local'),
     passportLocalMongoose = require('passport-local-mongoose');
 
 mongoose.connect('mongodb://localhost/Startereum');
@@ -23,6 +23,7 @@ app.set('view engine', 'ejs');
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.use(new LocalStatergy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -30,11 +31,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + '/public'));
 
+let isLoggedIn = (req,res,next) => {
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/login');
+}
 //==============
 //Routes
 //==============
 
-app.get('/', (req, res) => {
+app.get('/',isLoggedIn, (req, res) => {
     res.render('game.ejs', { rikki: 'Rikki' });
 });
 app.get('/register', (req, res) => {
@@ -52,22 +59,31 @@ app.post('/register', (req, res) => {
             }
             passport.authenticate('local')(req, res, () => {
                 res.redirect('/');
-
             });
         }
     );
 });
+//Login Routes
 app.get('/login', (req, res) => {
     res.render('login');
 });
+app.post(
+    '/login',
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    }),
+    (req, res) => {}
+);
+
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login')
+});
+
 
 app.get('/:name', (req, res) => {
     res.render('game', { rikki: req.params.name });
-});
-app.post('/addFriend', (req, res) => {
-    console.log(req.body);
-    res.send('Post request hit!');
-    res.redirect('/');
 });
 
 app.get('*', (req, res) => {
