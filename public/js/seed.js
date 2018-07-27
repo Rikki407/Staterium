@@ -4,25 +4,10 @@ mongoose.connect(
     { useNewUrlParser: true }
 );
 
-let twrSchema = new mongoose.Schema({
-    projectA: {
-        logo: String,
-        dream: String,
-        author: String,
-        description: String
-    },
-    projectB: {
-        logo: String,
-        dream: String,
-        author: String,
-        description: String
-    },
-    minStake: Number,
-    maxStake: Number,
-    endTime: Number
-});
+let TWR = require('../../models/TWR-model');
+let GK = require('../../models/GK-model');
+let Game = require('../../models/Game-model');
 
-let TWR = mongoose.model('TWR', twrSchema);
 let newTWR = {
     projectA: {
         logo:
@@ -63,13 +48,6 @@ let newTWR = {
     maxStake: 50
 };
 
-let gkSchema = new mongoose.Schema({
-    question: String,
-    answers: [String],
-    correctAnswerIndex: Number,
-    answerDiscussion: String
-});
-let GK = mongoose.model('GK', gkSchema);
 let newGK = {
     question: `The challenge with making crypto versions of the dollar, rupee etc. fiat currencies is that_________ `,
     answers: [
@@ -83,35 +61,17 @@ let newGK = {
     \nFor a discussion of state issued cryptotokens read more here: https://mashable.com/2018/01/08/cryptocurrency-bitcoin-governments/`
 };
 
-let gameSchema = new mongoose.Schema({
-    TWRs: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'TWR'
-        }
-    ],
-    GKs: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'GK'
-        }
-    ]
-});
 
-let Game = mongoose.model('Game', gameSchema);
 
 Game.remove(async err => {
-     console.log(err);
+    console.log(err);
 });
 TWR.remove(async err => {
-     console.log(err);
+    console.log(err);
 });
 GK.remove(async err => {
-     console.log(err);
+    console.log(err);
 });
-
-
-
 
 Game.create({}, (err, game) => {
     if (err) {
@@ -151,5 +111,3 @@ Game.create({}, (err, game) => {
         });
     }
 });
- 
-
