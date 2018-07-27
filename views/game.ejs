@@ -1,10 +1,106 @@
 <% include partials/header%>
-    <h1>This is the home page
-        <%= rikki %>
-    </h1>
-    <form action="/addFriend" method="POST">
-        <input type="text" placeholder="name" name="newFriend">
-        <button>Add Friend</button>
-    </form>
+    <div class="container nav justify-content-center" style="position: relative; top: 70px">
+
+
+        <div class="card-column column-0">
+            <div class="card card-color-0">
+                <div class="border"></div>
+                <img src="https://www.designevo.com/res/templates/thumb_small/blue-wing-and-circle.png" />
+                <h1 class="card-title">Project Margret</h1>
+                <h5 class="card-subtitle mb-2" style="color: #F2A310">Dream</h5>
+                <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
+                    in consequat eu minim esse et voluptate laborum. Mollit aliqua culpa ipsum Lorem sit i]</p>
+                <h5 class="card-subtitle mb-2" style="color: #F2A310">Founder</h5>
+                <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
+                    in consequat eu minim esse et voluptate laborum. Mollit aliqua culpa ipsum Lorem sit in enim anim est
+                    dolore anim anim magna. Ex consectetur Lorem veniam adipisicing. Ut nulla veniam duis velit occaecat
+                    qui.</p>
+            </div>
+            <div align="center" class="btn-group" role="group" aria-label="Basic example" style="display: block;">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter"> &nbsp&nbspStake&nbsp&nbsp </button>
+                <button type="button" class="btn btn-primary">Unstake</button>
+            </div>
+        </div>
+        <div class="card-column column-1">
+            <div class="card card-color-1">
+                <div class="border"></div>
+                <img src="https://www.designevo.com/res/templates/thumb_small/symmetrical-red-and-blue-polygon-company.png" />
+                <h1 class="card-title">Project Scarlet</h1>
+                <h5 class="card-subtitle mb-2" style="color: #F2A310">Dream</h5>
+                <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
+                    in consequat eu minim esse et voluptate laborum. Mollit aliqua culpa ipsum Lorem sit in enim anim est
+                    dolore anim anim magna. Ex consectetur Lorem veniam adipisicing. Ut nulla veniam duis velit occaecat
+                    qui.</p>
+                <h5 class="card-subtitle mb-2" style="color: #F2A310">Founder</h5>
+                <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
+                    in consequat eu minim esse et voluptate laborum. adipisicing. Ut nulla veniam duis velit occaecat qui.</p>
+
+            </div>
+            <div align="center" class="btn-group" role="group" aria-label="Basic example" style="display: block;">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter"> &nbsp&nbspStake&nbsp&nbsp </button>
+                <button type="button" class="btn btn-primary">Unstake</button>
+            </div>
+        </div>
+
+
+        <div id="cover" class="cover"></div>
+
+
+        <div id="open-content" class="open-content">
+            <a href="#" id="close-content" class="close-content">
+                <span class="x-1"></span>
+                <span class="x-2"></span>
+            </a>
+            <img id="open-content-image" src="" />
+            <div class="text" id="open-content-text">
+            </div>
+
+        </div>
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer " class="">
+            <nav class="navbar fixed-bottom navbar-expand-lg navbar-dark black justify-content-center">
+                <div class="navbar-inner navbar-content-center text-center ">
+                    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example" style="padding: 8px">
+                        <span class="badge-font" style="padding-right: 30px; color: white">
+                            Account
+                            <span class="badge badge-light" id="eth_account ">0x2c2b9c9a4a25e24b174f26114e8926a9f2128fe4</span>
+                        </span>
+                        <span class="badge-font" style="padding: 0 40px; color: white">
+                            Amount
+                            <span class="badge badge-light " id="eth_amount ">100</span>
+                        </span>
+                    </div>
+                    <button type="button " class="btn btn-next" disabled>Prev</button>
+                    <button type="button " class="btn btn-danger ">Stop</button>
+                    <button type="button " class="btn btn-next">Next</button>
+                </div>
+            </nav>
+        </div>
+
+    </div>
+
 
     <% include partials/footer%>
