@@ -46,9 +46,8 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 app.post('/register', (req, res) => {
-    console.log(req.body.password);
     User.register(
-        new User({ username: req.body.username }),
+        new User({ username: req.body.username, email: req.body.email}),
         req.body.password,
         (err, user) => {
             if (err) {

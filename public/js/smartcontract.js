@@ -37,6 +37,9 @@ App = {
             if (err === null) {
                 App.account = account;
                 $('#eth_account').text(account);
+                //On the Register and Login Page
+                $("#publicKey").val(account);
+                $("#publicKey2").val(account);
                 console.log(account);
             }
             web3.eth.getBalance(account, (err, balance) => {
