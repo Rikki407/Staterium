@@ -1,6 +1,6 @@
 {
-  "name": "chainskills",
-  "version": "1.0.0",
+  "name": "Staterium",
+  "version": "0.0.1",
   "description": "",
   "main": "truffle.js",
   "directories": {
@@ -10,9 +10,15 @@
     "dev": "lite-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "ChainSkills",
+  "author": "Rikki",
   "license": "ISC",
   "devDependencies": {
     "lite-server": "^2.3.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.5"
   }
 }

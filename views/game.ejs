@@ -1,0 +1,10 @@
+<% include partials/header%>
+    <h1>This is the home page
+        <%= rikki %>
+    </h1>
+    <form action="/addFriend" method="POST">
+        <input type="text" placeholder="name" name="newFriend">
+        <button>Add Friend</button>
+    </form>
+
+    <% include partials/footer%>
