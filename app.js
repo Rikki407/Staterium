@@ -5,11 +5,12 @@ let mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/Starterium');
 
+let seedDb = require('./seed');
+seedDb();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
-
 
 app.get('/', (req, res) => {
     res.render('game.ejs', { rikki: 'Rikki' });

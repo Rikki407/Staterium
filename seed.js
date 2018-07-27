@@ -4,9 +4,9 @@ mongoose.connect(
     { useNewUrlParser: true }
 );
 
-let TWR = require('../../models/TWR-model');
-let GK = require('../../models/GK-model');
-let Game = require('../../models/Game-model');
+let TWR = require('././models/TWR-model');
+let GK = require('./models/GK-model');
+let Game = require('./models/Game-model');
 
 let newTWR = {
     projectA: {
@@ -61,53 +61,54 @@ let newGK = {
     \nFor a discussion of state issued cryptotokens read more here: https://mashable.com/2018/01/08/cryptocurrency-bitcoin-governments/`
 };
 
-
-
-Game.remove(async err => {
-    console.log(err);
-});
-TWR.remove(async err => {
-    console.log(err);
-});
-GK.remove(async err => {
-    console.log(err);
-});
-
-Game.create({}, (err, game) => {
-    if (err) {
+let seedDB = () => {
+    Game.remove(err => {
         console.log(err);
-    } else {
-        console.log('New Game \n' + game);
-        TWR.create(newTWR, (err, twr) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(twr);
-                GK.create(newGK, (err, gk) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log(gk);
-                        Game.findOne({}, (err, game) => {
-                            TWR.findOne({}, (err, twr) => {
-                                GK.findOne({}, (err, gk) => {
-                                    game.TWRs.push(twr);
-                                    game.GKs.push(gk);
-                                    game.save((err, data) => {
-                                        if (err) {
-                                            console.log(err);
-                                        } else {
-                                            Game.find({}, (err, res) => {
-                                                console.log(res);
-                                            });
-                                        }
+    });
+    TWR.remove(err => {
+        console.log(err);
+    });
+    GK.remove(err => {
+        console.log(err);
+    });
+
+    Game.create({}, (err, game) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('New Game \n' + game);
+            TWR.create(newTWR, (err, twr) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(twr);
+                    GK.create(newGK, (err, gk) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(gk);
+                            Game.findOne({}, (err, game) => {
+                                TWR.findOne({}, (err, twr) => {
+                                    GK.findOne({}, (err, gk) => {
+                                        game.TWRs.push(twr);
+                                        game.GKs.push(gk);
+                                        game.save((err, data) => {
+                                            if (err) {
+                                                console.log(err);
+                                            } else {
+                                                Game.find({}, (err, res) => {
+                                                    console.log(res);
+                                                });
+                                            }
+                                        });
                                     });
                                 });
                             });
-                        });
-                    }
-                });
-            }
-        });
-    }
-});
+                        }
+                    });
+                }
+            });
+        }
+    });
+};
+module.exports = seedDB;
