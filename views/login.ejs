@@ -1,4 +1,23 @@
 <% include partials/header%>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark black">
+        <a class="navbar-brand" href="http://www.startereum.com/">
+
+            <img src="" width="50" height="50" alt="">
+
+            <span style="vertical-align: middle;color: #B49353">Starterium</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-item nav-link" href="/game">Game</a>
+                <a class="nav-item nav-link" href="/register">Sign Up</a>
+            </div>
+        </div>
+    </nav>
     <div class="container justify-content-center" style="position: relative; top: 70px; color: white">
         <h1>Login</h1>
         <form action="/login" method="POST">

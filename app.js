@@ -5,8 +5,7 @@ let express = require('express'),
     mongoose = require('mongoose'),
     User = require('./models/User-model'),
     LocalStatergy = require('passport-local'),
-    passportLocalMongoose = require('passport-local-mongoose');
-
+    seedDb = require('./seed');
 mongoose.connect('mongodb://localhost/Startereum');
 
 app.use(
@@ -17,7 +16,6 @@ app.use(
     })
 );
 
-let seedDb = require('./seed');
 seedDb();
 app.set('view engine', 'ejs');
 app.use(passport.initialize());
@@ -31,18 +29,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + '/public'));
 
-let isLoggedIn = (req,res,next) => {
-    if(req.isAuthenticated()){
+let isLoggedIn = (req, res, next) => {
+    if (req.isAuthenticated()) {
         return next();
     }
     res.redirect('/login');
-}
+};
 //==============
 //Routes
 //==============
 
-app.get('/',isLoggedIn, (req, res) => {
-    res.render('game.ejs', { rikki: 'Rikki' });
+app.get('/', (req, res) => {
+    res.render('home', { rikki: 'Rikki' });
 });
 app.get('/register', (req, res) => {
     res.render('register');
@@ -58,7 +56,7 @@ app.post('/register', (req, res) => {
                 return res.render('register');
             }
             passport.authenticate('local')(req, res, () => {
-                res.redirect('/');
+                res.redirect('/game');
             });
         }
     );
@@ -70,17 +68,20 @@ app.get('/login', (req, res) => {
 app.post(
     '/login',
     passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/game',
         failureRedirect: '/login'
     }),
     (req, res) => {}
 );
 
-app.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/login')
+app.get('/game', isLoggedIn, (req, res) => {
+    res.render('game', { rikki: 'Rikki' });
 });
 
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login');
+});
 
 app.get('/:name', (req, res) => {
     res.render('game', { rikki: req.params.name });
