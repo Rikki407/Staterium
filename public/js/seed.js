@@ -99,30 +99,57 @@ let gameSchema = new mongoose.Schema({
 });
 
 let Game = mongoose.model('Game', gameSchema);
-// Game.create({}, (err, game) => {
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         console.log('New Game \n' + game);
-//     }
-// });
 
-// Game.findOne({ _id: '5b5b1cffc84a5a947c640b57' }, (err, game) => {
-//     TWR.findOne({ _id: '5b5b1d67ef241494e01e9302' }, (err, twr) => {
-//         GK.findOne({ _id: '5b5b1e2a7e8f8e95230ba5b1' }, (err, gk) => {
-//             game.TWRs.push(twr);
-//             game.GKs.push(gk);
-//             game.save((err, data) => {
-//                 if (err) {
-//                     console.log(err);
-//                 } else {
-//                     console.log(data);
-//                 }
-//             });
-//         });
-//     });
-// });
-TWR.find({}, (err, data) => {
-    console.log(data);
+Game.remove(async err => {
+     console.log(err);
 });
+TWR.remove(async err => {
+     console.log(err);
+});
+GK.remove(async err => {
+     console.log(err);
+});
+
+
+
+
+Game.create({}, (err, game) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('New Game \n' + game);
+        TWR.create(newTWR, (err, twr) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(twr);
+                GK.create(newGK, (err, gk) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(gk);
+                        Game.findOne({}, (err, game) => {
+                            TWR.findOne({}, (err, twr) => {
+                                GK.findOne({}, (err, gk) => {
+                                    game.TWRs.push(twr);
+                                    game.GKs.push(gk);
+                                    game.save((err, data) => {
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            Game.find({}, (err, res) => {
+                                                console.log(res);
+                                            });
+                                        }
+                                    });
+                                });
+                            });
+                        });
+                    }
+                });
+            }
+        });
+    }
+});
+ 
 
