@@ -5,7 +5,8 @@ let express = require('express'),
     mongoose = require('mongoose'),
     User = require('./models/User-model'),
     LocalStatergy = require('passport-local'),
-    seedDb = require('./seed');
+    seedDb = require('./seed'),
+    ethUtil = require('ethereumjs-util');
 mongoose.connect('mongodb://localhost/Startereum');
 
 app.use(
@@ -46,19 +47,40 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 app.post('/register', (req, res) => {
-    User.register(
-        new User({ username: req.body.username, email: req.body.email}),
-        req.body.password,
-        (err, user) => {
-            if (err) {
-                console.log(err);
-                return res.render('register');
-            }
-            passport.authenticate('local')(req, res, () => {
-                res.redirect('/game');
-            });
-        }
+    console.log(req.body);
+    const msgBuffer = ethUtil.toBuffer(msg);
+    const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
+    const signatureBuffer = ethUtil.toBuffer(signature);
+    const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
+    const publicKey = ethUtil.ecrecover(
+        msgHash,
+        signatureParams.v,
+        signatureParams.r,
+        signatureParams.s
     );
+    const addressBuffer = ethUtil.publicToAddress(publicKey);
+    const address = ethUtil.bufferToHex(addressBuffer);
+
+    // The signature verification is successful if the address found with
+    // ecrecover matches the initial publicAddress
+    if (address.toLowerCase() === publicAddress.toLowerCase()) {
+        return user;
+    } else {
+        return res.status(401).send({ error: 'Signature verification failed' });
+    }
+    // User.register(
+    //     new User({ username: req.body.username, email: req.body.email}),
+    //     req.body.password,
+    //     (err, user) => {
+    //         if (err) {
+    //             console.log(err);
+    //             return res.render('register');
+    //         }
+    //         passport.authenticate('local')(req, res, () => {
+    //             res.redirect('/game');
+    //         });
+    //     }
+    // );
 });
 //Login Routes
 app.get('/login', (req, res) => {

@@ -40,11 +40,10 @@ App = {
                 //On the Register and Login Page
                 $("#publicKey").val(account);
                 $("#publicKey2").val(account);
-                console.log(account);
+                console.log($("#publicKey2").val());
             }
             web3.eth.getBalance(account, (err, balance) => {
                 if (err === null) {
-                    console.log(DummyMatches['10']);
                     $('#eth_amount').text(
                         web3.fromWei(balance, 'ether') + ' Eth'
                     );
