@@ -52,7 +52,7 @@ App = {
                 console.log(res);
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:3000/register',
+                    url: '/register',
                     data: {
                         username: $('#publicKey').val(),
                         password: $('#publicKey').val(),
