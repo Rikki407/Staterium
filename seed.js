@@ -76,17 +76,14 @@ let seedDB = () => {
         if (err) {
             console.log(err);
         } else {
-            console.log('New Game \n' + game);
             TWR.create(newTWR, (err, twr) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(twr);
                     GK.create(newGK, (err, gk) => {
                         if (err) {
                             console.log(err);
                         } else {
-                            console.log(gk);
                             Game.findOne({}, (err, game) => {
                                 TWR.findOne({}, (err, twr) => {
                                     GK.findOne({}, (err, gk) => {

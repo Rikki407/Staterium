@@ -8,8 +8,9 @@ let express = require('express'),
     seedDb = require('./seed'),
     ethUtil = require('ethereumjs-util');
 // mongoose.connect('mongodb://localhost/Startereum');
-mongoose.connect('mongodb://Rikki:rikki407@ds257851.mlab.com:57851/startereum');
+//mongoose.connect('mongodb://Rikki:rikki407@ds257851.mlab.com:57851/startereum');
 
+mongoose.connect(process.env.DATABASEURL);
 app.use(
     require('express-session')({
         secret: 'Minimlaborumeulaboreexcepteurquisnostrud',
