@@ -8,9 +8,7 @@ let express = require('express'),
     seedDb = require('./seed'),
     ethUtil = require('ethereumjs-util');
 //mongoose.connect('mongodb://localhost/Startereum');
-mongoose.connect(
-    'mongodb://Rikki:rikki407@ds257851.mlab.com:57851/startereum'
-);
+mongoose.connect('mongodb://Rikki:rikki407@ds257851.mlab.com:57851/startereum');
 
 app.use(
     require('express-session')({
@@ -116,6 +114,4 @@ app.get('/:name', (req, res) => {
 app.get('*', (req, res) => {
     res.send('Oops ! ! ! !');
 });
-app.listen(3000, () => {
-    console.log('Server started on Port 3000');
-});
+app.listen(process.env.PORT || 5000);
