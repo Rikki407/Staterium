@@ -47,12 +47,25 @@ App = {
         };
         let publicAddress = $('#publicKey').val();
         let nonce = Math.floor(Math.random() * 1000000);
-        $('#signup_btn').click(
+        $('#signup_btn').click(() => {
             signMessage(publicAddress, nonce).then(res => {
                 console.log(res);
-                return false;
-            })
-        );
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:3000/register',
+                    data: {
+                        username: $('#publicKey').val(),
+                        password: $('#publicKey').val(),
+                        nonce: nonce,
+                        signature: res
+                    },
+                    success: msg => {
+                        console.log('wow' + msg);
+                    }
+                });
+            });
+            return false;
+        });
     }
 };
 $(document).ready(() => {
