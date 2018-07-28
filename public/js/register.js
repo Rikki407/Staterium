@@ -59,8 +59,9 @@ App = {
                         nonce: nonce,
                         signature: res
                     },
-                    success: msg => {
-                        console.log('wow' + msg);
+                    success: data => {
+                        if (typeof data.redirect == 'string')
+                            window.location = data.redirect;
                     }
                 });
             });

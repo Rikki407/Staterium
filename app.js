@@ -48,10 +48,10 @@ app.get('/register', (req, res) => {
 });
 app.post('/register', (req, res) => {
     console.log(req.body);
-    let nonce =  req.body.nonce;
+    let nonce = req.body.nonce;
     let signature = req.body.signature.signature;
     const msg = `I am signing my one-time nonce: ${nonce}`;
-    let publicAddress =  req.body.signature.publicAddress;
+    let publicAddress = req.body.signature.publicAddress;
     const msgBuffer = ethUtil.toBuffer(msg);
     const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
     const signatureBuffer = ethUtil.toBuffer(signature);
@@ -69,23 +69,20 @@ app.post('/register', (req, res) => {
     // ecrecover matches the initial publicAddress
     if (address.toLowerCase() === publicAddress.toLowerCase()) {
         User.register(
-            new User({ username: req.body.username, email: req.body.email}),
+            new User({ username: req.body.username, email: req.body.email }),
             req.body.password,
             (err, user) => {
                 if (err) {
-                    console.log(err);
-                    return res.render('register');
+                    res.send({redirect: '/register'});
                 }
                 passport.authenticate('local')(req, res, () => {
-                    res.redirect('/game');
+                    res.send({redirect: '/game'});
                 });
             }
         );
     } else {
         return res.status(401).send({ error: 'Signature verification failed' });
     }
-
-    
 });
 //Login Routes
 app.get('/login', (req, res) => {
