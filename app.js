@@ -36,18 +36,8 @@ let isLoggedIn = (req, res, next) => {
     }
     res.redirect('/login');
 };
-//==============
-//Routes
-//==============
 
-app.get('/', (req, res) => {
-    res.render('home', { rikki: 'Rikki' });
-});
-app.get('/register', (req, res) => {
-    res.render('register');
-});
-app.post('/register', (req, res) => {
-    console.log(req.body);
+let verifySignature = (req, res, next) => {
     let nonce = req.body.nonce;
     let signature = req.body.signature.signature;
     const msg = `I am signing my one-time nonce: ${nonce}`;
@@ -68,6 +58,22 @@ app.post('/register', (req, res) => {
     // The signature verification is successful if the address found with
     // ecrecover matches the initial publicAddress
     if (address.toLowerCase() === publicAddress.toLowerCase()) {
+        return next();
+    } else {
+        res.send({ redirect: '/' });
+    }
+};
+//==============
+//Routes
+//==============
+
+app.get('/', (req, res) => {
+    res.render('home', { rikki: 'Rikki' });
+});
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+app.post('/register',verifySignature,(req, res) => {
         User.register(
             new User({ username: req.body.username, email: req.body.email }),
             req.body.password,
@@ -80,22 +86,28 @@ app.post('/register', (req, res) => {
                 });
             }
         );
-    } else {
-        return res.status(401).send({ error: 'Signature verification failed' });
-    }
-});
+    } 
+);
 //Login Routes
 app.get('/login', (req, res) => {
     res.render('login');
 });
-app.post(
-    '/login',
-    passport.authenticate('local', {
-        successRedirect: '/game',
-        failureRedirect: '/login'
-    }),
-    (req, res) => {}
-);
+app.post('/login', verifySignature, (req, res, next) => {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.send({ redirect: '/register'});
+        }
+        req.logIn(user, function(err) {
+            if (err) {
+                return next(err);
+            }
+            return res.send({ redirect: '/game'});
+        });
+    })(req, res, next);
+});
 
 app.get('/game', isLoggedIn, (req, res) => {
     res.render('game', { rikki: 'Rikki' });
@@ -104,10 +116,6 @@ app.get('/game', isLoggedIn, (req, res) => {
 app.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/login');
-});
-
-app.get('/:name', (req, res) => {
-    res.render('game', { rikki: req.params.name });
 });
 
 app.get('*', (req, res) => {
