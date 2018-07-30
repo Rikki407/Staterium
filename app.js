@@ -73,21 +73,20 @@ app.get('/', (req, res) => {
 app.get('/register', (req, res) => {
     res.render('register');
 });
-app.post('/register',verifySignature,(req, res) => {
-        User.register(
-            new User({ username: req.body.username, email: req.body.email }),
-            req.body.password,
-            (err, user) => {
-                if (err) {
-                    res.send({ redirect: '/register' });
-                }
-                passport.authenticate('local')(req, res, () => {
-                    res.send({ redirect: '/game' });
-                });
+app.post('/register', verifySignature, (req, res) => {
+    User.register(
+        new User({ username: req.body.username, email: req.body.email }),
+        req.body.password,
+        (err, user) => {
+            if (err) {
+                res.send({ redirect: '/register' });
             }
-        );
-    } 
-);
+            passport.authenticate('local')(req, res, () => {
+                res.send({ redirect: '/game' });
+            });
+        }
+    );
+});
 //Login Routes
 app.get('/login', (req, res) => {
     res.render('login');
@@ -98,19 +97,23 @@ app.post('/login', verifySignature, (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            return res.send({ redirect: '/register'});
+            return res.send({ redirect: '/register' });
         }
         req.logIn(user, function(err) {
             if (err) {
                 return next(err);
             }
-            return res.send({ redirect: '/game'});
+            return res.send({ redirect: '/game' });
         });
     })(req, res, next);
 });
 
 app.get('/game', isLoggedIn, (req, res) => {
     res.render('game', { rikki: 'Rikki' });
+});
+
+app.get('/gk', (req, res) => {
+    res.render('gk');
 });
 
 app.get('/logout', (req, res) => {
