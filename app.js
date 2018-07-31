@@ -29,7 +29,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname+"/public"));
 
 let isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -114,31 +114,27 @@ app.post('/login', verifySignature, (req, res, next) => {
 let G_index = 0;
 app.get('/game', isLoggedIn, (req, res) => {
     if (G_index % 2 == 0) {
-        res.redirect('/game/twr');
+        res.redirect('/twr');
     } else {
-        res.redirect('/game/gk');
+        res.redirect('/gk');
     }
     G_index++;
 });
 let TWR_index = 0;
-app.get('/game/twr', isLoggedIn, (req, res) => {
+app.get('/twr', isLoggedIn,(req, res) => {
     Game.find({})
-        .populate('TWRs')
-        .exec((err, game) => {
-            let TWR = game[0].TWRs[TWR_index];
-            console.log(TWR);
-            res.render('twr', { TWR: TWR });
-        });
-
-    TWR_index++;
+    .populate('TWRs')
+    .exec((err, game) => {
+        let TWR = game[0].TWRs[TWR_index];
+        res.render('twr', { TWR });
+    });
 });
 let GK_index = 0;
-app.get('/game/gk', isLoggedIn, (req, res) => {
+app.get('/gk', isLoggedIn,(req, res) => {
     Game.find({})
         .populate('GKs')
         .exec((err, game) => {
             let GK = game[0].GKs[GK_index];
-            console.log(GK);
             res.render('gk', { GK: GK });
         });
 });
