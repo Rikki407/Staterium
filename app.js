@@ -29,7 +29,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(__dirname+"/public"));
+app.use(express.static(__dirname+'/public'));
 
 let isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -121,21 +121,31 @@ app.get('/game', isLoggedIn, (req, res) => {
     G_index++;
 });
 let TWR_index = 0;
-app.get('/twr', isLoggedIn,(req, res) => {
+app.get('/twr/dk', isLoggedIn, (req, res) => {
     Game.find({})
-    .populate('TWRs')
-    .exec((err, game) => {
-        let TWR = game[0].TWRs[TWR_index];
-        res.render('twr', { TWR });
-    });
+        .populate('TWRs')
+        .exec((err, game) => {
+            let TWR = game[0].TWRs[TWR_index];
+            if (TWR === null || TWR === undefined) {
+                res.render('home');
+            } else {
+                res.render('twr', { TWR });
+            }
+            TWR_index++;
+        });
 });
 let GK_index = 0;
-app.get('/gk', isLoggedIn,(req, res) => {
+app.get('/gk', isLoggedIn, (req, res) => {
     Game.find({})
         .populate('GKs')
         .exec((err, game) => {
             let GK = game[0].GKs[GK_index];
-            res.render('gk', { GK: GK });
+            if (GK === null || GK === undefined) {
+                res.render('home');
+            } else {
+                res.render('gk', { GK });
+            }
+            GK_index++;
         });
 });
 
