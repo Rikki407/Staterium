@@ -1,96 +1,103 @@
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark black">
-    <a class="navbar-brand" href="http://www.startereum.com/">
+<% include partials/header%>
 
-        <img src="" width="50" height="50" alt="">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark black">
+        <a class="navbar-brand" href="http://www.startereum.com/">
 
-        <span style="vertical-align: middle;color: #B49353">Starterium</span>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" href="/">Home</a>
-            <a class="nav-item nav-link active" href="/game">Game</a>
-            <a class="nav-item nav-link" href="/register">Sign Up</a>
-        </div>
-    </div>
-</nav>
-<div class="container nav justify-content-center" style="position: relative; top: 70px">
-    <div class="card-column column-0">
-        <div class="card card-color-0">
-            <div class="border"></div>
-            <img src="https://www.designevo.com/res/templates/thumb_small/blue-wing-and-circle.png" />
-            <h1 class="card-title">Project Margret</h1>
-            <h5 class="card-subtitle mb-2" style="color: #F2A310">Dream</h5>
-            <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
-                in consequat eu minim esse et voluptate laborum. Mollit aliqua culpa ipsum Lorem sit i</p>
-            <h5 class="card-subtitle mb-2" style="color: #F2A310">Founder</h5>
-            <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
-                in consequat eu minim esse et voluptate laborum. Mollit aliqua culpa ipsum Lorem sit in enim anim est dolore
-                anim anim magna. Ex consectetur Lorem veniam adipisicing. Ut nulla veniam duis velit occaecat qui.
-            </p>
-        </div>
-        <div align="center" class="btn-group" role="group" aria-label="Basic example" style="display: block;">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter"> &nbsp&nbspStake&nbsp&nbsp </button>
-            <button type="button" class="btn btn-primary">Unstake</button>
-        </div>
-    </div>
-    <div class="card-column column-1">
-        <div class="card card-color-1">
-            <div class="border"></div>
-            <img src="https://www.designevo.com/res/templates/thumb_small/symmetrical-red-and-blue-polygon-company.png" />
-            <h1 class="card-title">Project Scarlet</h1>
-            <h5 class="card-subtitle mb-2" style="color: #F2A310">Dream</h5>
-            <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
-                in consequat eu minim esse et voluptate laborum. Mollit aliqua culpa ipsum Lorem sit in enim anim est dolore
-                anim anim magna. Ex consectetur Lorem veniam adipisicing. Ut nulla veniam duis velit occaecat qui.
-            </p>
-            <h5 class="card-subtitle mb-2" style="color: #F2A310">Founder</h5>
-            <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
-                in consequat eu minim esse et voluptate laborum. adipisicing. Ut nulla veniam duis velit occaecat qui.</p>
+            <img src="" width="50" height="50" alt="">
 
-        </div>
-        <div align="center" class="btn-group" role="group" aria-label="Basic example" style="display: block;">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter"> &nbsp&nbspStake&nbsp&nbsp </button>
-            <button type="button" class="btn btn-primary">Unstake</button>
-        </div>
-    </div>
-
-
-    <div id="cover" class="cover"></div>
-
-
-    <div id="open-content" class="open-content">
-        <a href="#" id="close-content" class="close-content">
-            <span class="x-1"></span>
-            <span class="x-2"></span>
+            <span style="vertical-align: middle;color: #B49353">Starterium</span>
         </a>
-        <img id="open-content-image" src="" />
-        <div class="text" id="open-content-text">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-item nav-link active" href="/game">Game</a>
+                <a class="nav-item nav-link" href="/register">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container nav justify-content-center" style="position: relative; top: 70px">
+        <div class="card-column column-0">
+            <div class="card card-color-0">
+                <div class="border"></div>
+                <img src="https://www.designevo.com/res/templates/thumb_small/blue-wing-and-circle.png" />
+                <h1 class="card-title">Margret</h1>
+                <h5 class="card-subtitle mb-2" style="color: #F2A310">Dream</h5>
+                <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
+                    in consequat eu minim esse et voluptate laborum. Mollit aliqua culpa ipsum Lorem sit i</p>
+                <h5 class="card-subtitle mb-2" style="color: #F2A310">Founder</h5>
+                <p class="card-text">
+                    <% TWR %>
+                        Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure in consequat
+                        eu minim esse et voluptate laborum. Mollit aliqua culpa ipsum Lorem sit in enim anim est dolore anim
+                        anim magna. Ex consectetur Lorem veniam adipisicing. Ut nulla veniam duis velit occaecat qui.
+                </p>
+            </div>
+            <div align="center" class="btn-group" role="group" aria-label="Basic example" style="display: block;">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter"> &nbsp&nbspStake&nbsp&nbsp </button>
+                <button type="button" class="btn btn-primary">Unstake</button>
+            </div>
+        </div>
+        <div class="card-column column-1">
+            <div class="card card-color-1">
+                <div class="border"></div>
+                <img src="https://www.designevo.com/res/templates/thumb_small/symmetrical-red-and-blue-polygon-company.png" />
+                <h1 class="card-title">Project Scarlet</h1>
+                <h5 class="card-subtitle mb-2" style="color: #F2A310">Dream</h5>
+                <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
+                    in consequat eu minim esse et voluptate laborum. Mollit aliqua culpa ipsum Lorem sit in enim anim est
+                    dolore anim anim magna. Ex consectetur Lorem veniam adipisicing. Ut nulla veniam duis velit occaecat
+                    qui.
+                </p>
+                <h5 class="card-subtitle mb-2" style="color: #F2A310">Founder</h5>
+                <p class="card-text">Eu cupidatat anim tempor sunt qui aliqua irure esse duis. Magna sunt cupidatat ut Lorem tempor amet ex. Irure
+                    in consequat eu minim esse et voluptate laborum. adipisicing. Ut nulla veniam duis velit occaecat qui.</p>
+
+            </div>
+            <div align="center" class="btn-group" role="group" aria-label="Basic example" style="display: block;">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter"> &nbsp&nbspStake&nbsp&nbsp </button>
+                <button type="button" class="btn btn-primary">Unstake</button>
+            </div>
         </div>
 
-    </div>
+
+        <div id="cover" class="cover"></div>
+
+
+        <div id="open-content" class="open-content">
+            <a href="#" id="close-content" class="close-content">
+                <span class="x-1"></span>
+                <span class="x-2"></span>
+            </a>
+            <img id="open-content-image" src="" />
+            <div class="text" id="open-content-text">
+            </div>
+
+        </div>
 
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,12 +112,25 @@
                     </span>
                     <span class="badge-font" style="padding: 0 40px; color: white">
                         Amount
-                        <span class="badge badge-light " id="eth_amount">100</span>
+                        <span class="badge badge-light " id="eth_amount">100 Eth</span>
                     </span>
                 </div>
-                <button type="button" class="btn btn-next" disabled>Prev</button>
+                <button type="button" class="btn btn-next" onclick="prevPage()">Prev</button>
                 <button type="button" class="btn btn-danger ">Stop</button>
                 <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
             </div>
         </nav>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js "></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js " integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49 "
+        crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js " integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em "
+        crossorigin="anonymous "></script>
+    <script src="js/web3.min.js "></script>
+    <script src="js/truffle-contract.js "></script>
+    <script src="js/smartcontract.js "></script>
+    <script src="js/card-animation.js"></script>
+    </body>
+
+    </html>

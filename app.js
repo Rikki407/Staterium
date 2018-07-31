@@ -6,7 +6,8 @@ let express = require('express'),
     User = require('./models/User-model'),
     LocalStatergy = require('passport-local'),
     seedDb = require('./seed'),
-    ethUtil = require('ethereumjs-util');
+    ethUtil = require('ethereumjs-util'),
+    Game = require('./models/Game-model');
 let url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
 mongoose.connect(url);
 app.use(
@@ -107,9 +108,39 @@ app.post('/login', verifySignature, (req, res, next) => {
         });
     })(req, res, next);
 });
-
+//////
+// Game Routes
+//////
+let G_index = 0;
 app.get('/game', isLoggedIn, (req, res) => {
-    res.render('game', { rikki: 'Rikki' });
+    if (G_index % 2 == 0) {
+        res.redirect('/game/twr');
+    } else {
+        res.redirect('/game/gk');
+    }
+    G_index++;
+});
+let TWR_index = 0;
+app.get('/game/twr', isLoggedIn, (req, res) => {
+    Game.find({})
+        .populate('TWRs')
+        .exec((err, game) => {
+            let TWR = game[0].TWRs[TWR_index];
+            console.log(TWR);
+            res.render('twr', { TWR: TWR });
+        });
+
+    TWR_index++;
+});
+let GK_index = 0;
+app.get('/game/gk', isLoggedIn, (req, res) => {
+    Game.find({})
+        .populate('GKs')
+        .exec((err, game) => {
+            let GK = game[0].GKs[GK_index];
+            console.log(GK);
+            res.render('gk', { GK: GK });
+        });
 });
 
 app.get('/gk', (req, res) => {

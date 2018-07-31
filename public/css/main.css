@@ -1,9 +1,5 @@
 body {
-    background: url('../Starterium.png') no-repeat;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: #303030;
+    background-color: #000000;
 }
 .black {
     background-color: #303030;
