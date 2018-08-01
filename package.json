@@ -14,6 +14,7 @@
   "author": "Rikki",
   "license": "ISC",
   "devDependencies": {
+    "eslint-config-rallycoding": "^3.2.0",
     "lite-server": "^2.3.0"
   },
   "dependencies": {

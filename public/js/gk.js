@@ -1,8 +1,7 @@
 // correctAnswerIndex: 2, answerDiscussion: `All market traded commodities float
 // in value, including currencies. \nFor a discussion of state issued cryptotokens read more here: https://mashable.com/2018/01/08/cryptocurrency-bitcoin-governments/`
-let answer = '';
 
-let checkAnswer = () => {
+const checkAnswer = () => {
     $.ajax({
         type: 'POST',
         url: '/gk/submit',

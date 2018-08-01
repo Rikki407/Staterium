@@ -1,4 +1,4 @@
-let express = require('express'),
+et express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     passport = require('passport'),
@@ -183,3 +183,47 @@ app.get('*', (req, res) => {
     res.send('Oops ! ! ! !');
 });
 app.listen(process.env.PORT || 5000);
+
+
+
+/////////////
+// let express = require('express'),
+//     app = express(),
+//     bodyParser = require('body-parser'),
+//     passport = require('passport'),
+//     mongoose = require('mongoose'),
+//     User = require('./models/User-model'),
+//     LocalStatergy = require('passport-local'),
+//     seedDb = require('./seed'),
+//     Game = require('./models/Game-model');
+// let indexRoutes = require('./routes/index'),
+//     gameRoutes = require('./routes/game');
+
+// let url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
+// mongoose.connect(url);
+// app.use(
+//     require('express-session')({
+//         secret: 'Minimlaborumeulaboreexcepteurquisnostrud',
+//         resave: false,
+//         saveUninitialized: false
+//     })
+// );
+
+// seedDb();
+// app.set('view engine', 'ejs');
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+// passport.use(new LocalStatergy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+// app.use(express.static(__dirname + '/public'));
+
+// app.use(indexRoutes);
+// app.use(gameRoutes);
+
+
+// app.listen(process.env.PORT || 5000);
