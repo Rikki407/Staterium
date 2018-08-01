@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,69 +14,65 @@
 
 <body>
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark black">
-    <a class="navbar-brand" href="http://www.startereum.com/">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark black">
+        <a class="navbar-brand" href="http://www.startereum.com/">
 
-        <img src="" width="50" height="50" alt="">
+            <img src="" width="50" height="50" alt="">
 
-        <span style="vertical-align: middle;color: #B49353">Starterium</span>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" href="/">Home</a>
-            <a class="nav-item nav-link active" href="/game">Game</a>
-            <a class="nav-item nav-link" href="/register">Sign Up</a>
+            <span style="vertical-align: middle;color: #B49353">Starterium</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-item nav-link active" href="/game">Game</a>
+                <a class="nav-item nav-link" href="/register">Sign Up</a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<div class="container nav justify-content-center" style="position: relative; top: 70px">
-    <h3 style="color: white;margin: 60px 0">
-        The challenge with making crypto versions of the dollar, rupee etc. fiat currencies is that_________
-    </h3>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <div class="input-group-text">
-                <input type="radio" aria-label="Checkbox for following text input" name="answers" value="A">
+    <div class="container nav justify-content-center" style="position: relative; top: 70px">
+        <h3 style="color: white;margin: 60px 0">
+            <%= GK.question %>
+        </h3>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Checkbox for following text input" name="answers" value="0">
+                </div>
             </div>
+            <input type="text" class="form-control" aria-label="Text input with checkbox" value="<%= GK.answers[0]%>" readonly>
         </div>
-        <input type="text" class="form-control" aria-label="Text input with checkbox" value="Central banks are not authorized by law to create them."
-            readonly>
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <div class="input-group-text">
-                <input type="radio" aria-label="Checkbox for following text input" name="answers" value="B">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Checkbox for following text input" name="answers" value="1">
+                </div>
             </div>
+            <input type="text" class="form-control" aria-label="Text input with checkbox" value="<%= GK.answers[1]%>" readonly>
         </div>
-        <input type="text" class="form-control" aria-label="Text input with checkbox" value="Crypto exchanges may ban such fiat-linked tokens."
-            readonly>
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <div class="input-group-text">
-                <input type="radio" aria-label="Checkbox for following text input" name="answers" value="C">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Checkbox for following text input" name="answers" value="2">
+                </div>
             </div>
+            <input type="text" class="form-control" aria-label="Text input with checkbox" value="<%= GK.answers[2]%>" readonly>
         </div>
-        <input type="text" class="form-control" aria-label="Text input with checkbox" value="The new crypto-token will immediately float in value against the original fiat."
-            readonly>
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <div class="input-group-text">
-                <input type="radio" aria-label="Checkbox for following text input" name="answers" value="D">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" aria-label="Checkbox for following text input" name="answers" value="3">
+                </div>
             </div>
+            <input type="text" class="form-control" aria-label="Text input with checkbox" value="<%= GK.answers[3]%>" readonly>
         </div>
-        <input type="text" class="form-control" aria-label="Text input with checkbox" value="No nation or central bank yet owns its own blockchain."
-            readonly>
+        <button type="submit" onclick="checkAnswer()" class="btn btn-primary" id="submit_answer">Submit</button>
     </div>
-    <button type="submit" onclick="returnScore()" class="btn btn-primary" id="submit_answer">Submit</button>
-</div>
-<div id="footer " class="">
+    <div id="footer " class="">
         <nav class="navbar fixed-bottom navbar-expand-lg navbar-dark black justify-content-center">
             <div class="navbar-inner navbar-content-center text-center ">
                 <div class="btn-group btn-group-lg" role="group" aria-label="Basic example" style="padding: 8px">
@@ -103,7 +100,16 @@
     <script src="js/web3.min.js "></script>
     <script src="js/truffle-contract.js "></script>
     <script src="js/smartcontract.js "></script>
-    <script src="js/gk.js "></script>
+    <script src="js/gk.js"></script>
+    <script>
+        let nextPage = () => {
+            window.location.replace("/game/next");
+        }
+        let prevPage = () => {
+            window.location.replace("/game/prev");
+        }
+    </script>
+
 </body>
 
 </html>

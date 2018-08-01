@@ -29,7 +29,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(__dirname+'/public'));
+app.use(express.static(__dirname + '/public'));
 
 let isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -111,46 +111,67 @@ app.post('/login', verifySignature, (req, res, next) => {
 //////
 // Game Routes
 //////
-let G_index = 0;
 app.get('/game', isLoggedIn, (req, res) => {
+    res.redirect('/game/next');
+});
+let G_index = -1;
+app.get('/game/next', isLoggedIn, (req, res) => {
+    G_index++;
     if (G_index % 2 == 0) {
         res.redirect('/twr');
     } else {
         res.redirect('/gk');
     }
-    G_index++;
 });
-let TWR_index = 0;
-app.get('/twr/dk', isLoggedIn, (req, res) => {
+app.get('/game/prev', isLoggedIn, (req, res) => {
+    G_index--;
+    if (G_index % 2 == 0) {
+        res.redirect('/twr');
+    } else {
+        res.redirect('/gk');
+    }
+});
+app.get('/twr', isLoggedIn, (req, res) => {
     Game.find({})
         .populate('TWRs')
         .exec((err, game) => {
-            let TWR = game[0].TWRs[TWR_index];
+            let TWR = game[0].TWRs[G_index / 2];
             if (TWR === null || TWR === undefined) {
                 res.render('home');
             } else {
                 res.render('twr', { TWR });
             }
-            TWR_index++;
         });
 });
-let GK_index = 0;
 app.get('/gk', isLoggedIn, (req, res) => {
     Game.find({})
         .populate('GKs')
         .exec((err, game) => {
-            let GK = game[0].GKs[GK_index];
+            let GK = game[0].GKs[Math.floor(G_index / 2)];
             if (GK === null || GK === undefined) {
                 res.render('home');
             } else {
+                console.log(GK);
                 res.render('gk', { GK });
             }
-            GK_index++;
         });
 });
 
-app.get('/gk', (req, res) => {
-    res.render('gk');
+app.post('/gk/submit', isLoggedIn, (req, res) => {
+    Game.find({})
+        .populate('GKs')
+        .exec((err, game) => {
+            let GK = game[0].GKs[Math.floor(G_index / 2)];
+            console.log(GK.correctAnswerIndex+"  "+req.body.answer);
+            if(req.body.answer === undefined){
+                return res.send({ answer_correct: 'not selected' });
+            }
+            if (req.body.answer == GK.correctAnswerIndex) {
+                return res.send({ answer_correct: true });
+            } else {
+                return res.send({ answer_correct: false });
+            }
+        });
 });
 
 app.get('/logout', (req, res) => {
