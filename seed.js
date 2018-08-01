@@ -1,8 +1,3 @@
-let mongoose = require('mongoose');
-mongoose.connect(
-    'mongodb://localhost:27017/Startereum',
-    { useNewUrlParser: true }
-);
 
 let TWR = require('././models/TWR-model');
 let GK = require('./models/GK-model');
