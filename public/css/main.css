@@ -1,3 +1,10 @@
+svg {
+    height: 120px;
+    width: 120px;
+    position: absolute;
+    top: 220px;
+    left: 500px;
+}
 body {
     background-color: #000000;
 }

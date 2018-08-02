@@ -1,4 +1,4 @@
-et express = require('express'),
+const express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     passport = require('passport'),
@@ -8,7 +8,8 @@ et express = require('express'),
     seedDb = require('./seed'),
     ethUtil = require('ethereumjs-util'),
     Game = require('./models/Game-model');
-let url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
+    
+const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
 mongoose.connect(url);
 app.use(
     require('express-session')({
