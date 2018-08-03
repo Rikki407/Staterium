@@ -1,6 +1,7 @@
 svg {
     height: 120px;
     width: 120px;
+    display: block;
     position: absolute;
     top: 220px;
     left: 500px;
