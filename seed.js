@@ -2,6 +2,7 @@
 let TWR = require('././models/TWR-model');
 let GK = require('./models/GK-model');
 let Game = require('./models/Game-model');
+let User = require('./models/User-model');
 
 let newTWR = {
     projectA: {
@@ -64,6 +65,9 @@ let seedDB = () => {
         console.log(err);
     });
     GK.remove(err => {
+        console.log(err);
+    });
+    User.remove(err => {
         console.log(err);
     });
 

@@ -19,12 +19,6 @@ app.use(
 
 seedDb();
 app.set('view engine', 'ejs');
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.use(new LocalStatergy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -44,6 +38,7 @@ let isLoggedIn = (req, res, next) => {
 app.get('/', (req, res) => {
     res.render('home', { rikki: 'Rikki' });
 });
+
 app.get('/register', (req, res) => {
     res.render('register');
 });
@@ -53,6 +48,7 @@ const verifySignature = (publicAddress, nonce, signature) => {
 
     const msgBuffer = ethUtil.toBuffer(msg);
     const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
+    console.log(signature);
     const signatureBuffer = ethUtil.toBuffer(signature);
     const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
     const publicKey = ethUtil.ecrecover(
@@ -86,6 +82,7 @@ app.post('/register', (req, res, next) => {
             return res.redirect('/game');
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
+        
         const userData = {
             ethAddress: req.body.ethAddress
         };
@@ -98,7 +95,8 @@ app.post('/register', (req, res, next) => {
         ) {
             User.create(userData, (err, user) => {
                 if (err) {
-                    return next(err);
+                    console.log(err);
+                    return res.send({ redirect: '/hahaahah' });
                 }
                 req.session.userId = user._id;
                 return res.send({ redirect: '/game' });
@@ -122,17 +120,20 @@ app.post('/login', verifySignature, (req, res, next) => {
             return res.redirect('/game');
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
-        User.ethAddressAuthenticate(req.body.ethAddress,
+        User.ethAddressAuthenticate(
+            req.body.ethAddress,
             req.body.signature,
-            req.body.nonce, (error, user) => {
-            if (error || !user) {
-                const err = new Error('Wrong email or password.');
-                err.status = 401;
-                return next(err);
+            req.body.nonce,
+            (error, user) => {
+                if (error || !user) {
+                    const err = new Error('Wrong email or password.');
+                    err.status = 401;
+                    return next(err);
+                }
+                req.session.userId = user._id;
+                return res.send({ redirect: '/game' });
             }
-            req.session.userId = user._id;
-            return res.send({ redirect: '/game' });
-        });
+        );
     }
 });
 //////
@@ -210,44 +211,3 @@ app.get('*', (req, res) => {
     res.send('Oops ! ! ! !');
 });
 app.listen(process.env.PORT || 5000);
-
-/////////////
-// let express = require('express'),
-//     app = express(),
-//     bodyParser = require('body-parser'),
-//     passport = require('passport'),
-//     mongoose = require('mongoose'),
-//     User = require('./models/User-model'),
-//     LocalStatergy = require('passport-local'),
-//     seedDb = require('./seed'),
-//     Game = require('./models/Game-model');
-// let indexRoutes = require('./routes/index'),
-//     gameRoutes = require('./routes/game');
-
-// let url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
-// mongoose.connect(url);
-// app.use(
-//     require('express-session')({
-//         secret: 'Minimlaborumeulaboreexcepteurquisnostrud',
-//         resave: false,
-//         saveUninitialized: false
-//     })
-// );
-
-// seedDb();
-// app.set('view engine', 'ejs');
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// passport.use(new LocalStatergy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
-
-// app.use(bodyParser.urlencoded({ extended: true }));
-
-// app.use(express.static(__dirname + '/public'));
-
-// app.use(indexRoutes);
-// app.use(gameRoutes);
-
-// app.listen(process.env.PORT || 5000);

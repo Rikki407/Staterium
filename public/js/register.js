@@ -1,13 +1,13 @@
-App = {
+const App = {
     web3Provider: null,
     contracts: {},
     account: 0x0,
 
-    init: function() {
+    init: () => {
         return App.initWeb3();
     },
 
-    initWeb3: function() {
+    initWeb3: () => {
         if (typeof web3 !== 'undefined') {
             App.web3Provider = web3.currentProvider;
         } else {
@@ -26,14 +26,13 @@ App = {
                 App.account = account;
                 //On the Register and Login Page
                 $('#publicKey').val(account);
-                $('#publicKey2').val(account);
-                console.log($('#publicKey2').val());
+                console.log($('#publicKey').val());
                 App.sign();
             }
         });
     },
     sign: () => {
-        let signMessage = (publicAddress, nonce) => {
+        const signMessage = (publicAddress, nonce) => {
             return new Promise((resolve, reject) =>
                 web3.personal.sign(
                     web3.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
@@ -54,13 +53,12 @@ App = {
                     type: 'POST',
                     url: '/register',
                     data: {
-                        username: $('#publicKey').val(),
-                        password: $('#publicKey').val(),
+                        ethAddress: res.publicAddress,
                         nonce: nonce,
-                        signature: res
+                        signature: res.signature
                     },
                     success: data => {
-                        if (typeof data.redirect == 'string')
+                        if (typeof data.redirect === 'string')
                             window.location = data.redirect;
                     }
                 });

@@ -14,8 +14,7 @@ const UserSchema = new mongoose.Schema({
         trim: true
     },
     password: {
-        type: String,
-        required: true
+        type: String
     }
 });
 UserSchema.statics.authenticate = (email, password, callback) => {
@@ -82,13 +81,15 @@ UserSchema.methods.ethAddressAuthenticate = (
 
 UserSchema.pre('save', function(next) {
     const user = this;
-    bcrypt.hash(user.password, 10, function(err, hash) {
-        if (err) {
-            return next(err);
-        }
-        user.password = hash;
-        next();
-    });
+    if (user.password) {
+        bcrypt.hash(user.password, 10, function(err, hash) {
+            if (err) {
+                return next(err);
+            }
+            user.password = hash;
+        });
+    }
+    next();
 });
 const User = mongoose.model('User', UserSchema);
 
