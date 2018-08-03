@@ -1,10 +1,8 @@
 const express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    passport = require('passport'),
     mongoose = require('mongoose'),
     User = require('./models/User-model'),
-    LocalStatergy = require('passport-local'),
     seedDb = require('./seed'),
     ethUtil = require('ethereumjs-util'),
     Game = require('./models/Game-model');
@@ -113,20 +111,29 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 app.post('/login', verifySignature, (req, res, next) => {
-    passport.authenticate('local', function(err, user, info) {
-        if (err) {
-            return next(err);
-        }
-        if (!user) {
-            return res.send({ redirect: '/register' });
-        }
-        req.logIn(user, function(err) {
-            if (err) {
+    if (req.body.email && req.body.password) {
+        User.authenticate(req.body.email, req.body.password, (error, user) => {
+            if (error || !user) {
+                const err = new Error('Wrong email or password.');
+                err.status = 401;
                 return next(err);
             }
+            req.session.userId = user._id;
+            return res.redirect('/game');
+        });
+    } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
+        User.ethAddressAuthenticate(req.body.ethAddress,
+            req.body.signature,
+            req.body.nonce, (error, user) => {
+            if (error || !user) {
+                const err = new Error('Wrong email or password.');
+                err.status = 401;
+                return next(err);
+            }
+            req.session.userId = user._id;
             return res.send({ redirect: '/game' });
         });
-    })(req, res, next);
+    }
 });
 //////
 // Game Routes
