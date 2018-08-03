@@ -8,7 +8,7 @@ const express = require('express'),
     seedDb = require('./seed'),
     ethUtil = require('ethereumjs-util'),
     Game = require('./models/Game-model');
-    
+
 const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
 mongoose.connect(url);
 app.use(
@@ -49,19 +49,64 @@ app.get('/', (req, res) => {
 app.get('/register', (req, res) => {
     res.render('register');
 });
-app.post('/register', (req, res) => {
-    User.register(
-        new User({ username: req.body.username, email: req.body.email }),
-        req.body.password,
-        (err, user) => {
+
+const verifySignature = (publicAddress, nonce, signature) => {
+    const msg = `I am signing my one-time nonce: ${nonce}`;
+
+    const msgBuffer = ethUtil.toBuffer(msg);
+    const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
+    const signatureBuffer = ethUtil.toBuffer(signature);
+    const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
+    const publicKey = ethUtil.ecrecover(
+        msgHash,
+        signatureParams.v,
+        signatureParams.r,
+        signatureParams.s
+    );
+    const addressBuffer = ethUtil.publicToAddress(publicKey);
+    const address = ethUtil.bufferToHex(addressBuffer);
+
+    // The signature verification is successful if the address found with
+    // ecrecover matches the initial publicAddress
+    if (address.toLowerCase() === publicAddress.toLowerCase()) {
+        return true;
+    }
+    return false;
+};
+app.post('/register', (req, res, next) => {
+    if (req.body.email && req.body.password) {
+        const userData = {
+            email: req.body.email,
+            password: req.body.password
+        };
+        //use schema.create to insert data into the db
+        User.create(userData, (err, user) => {
             if (err) {
-                res.send({ redirect: '/register' });
+                return next(err);
             }
-            passport.authenticate('local')(req, res, () => {
-                res.send({ redirect: '/game' });
+            req.session.userId = user._id;
+            return res.redirect('/game');
+        });
+    } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
+        const userData = {
+            ethAddress: req.body.ethAddress
+        };
+        if (
+            verifySignature(
+                req.body.ethAddress,
+                req.body.nonce,
+                req.body.signature
+            )
+        ) {
+            User.create(userData, (err, user) => {
+                if (err) {
+                    return next(err);
+                }
+                req.session.userId = user._id;
+                return res.send({ redirect: '/game' });
             });
         }
-    );
+    }
 });
 //Login Routes
 app.get('/login', (req, res) => {
@@ -137,8 +182,8 @@ app.post('/gk/submit', isLoggedIn, (req, res) => {
         .populate('GKs')
         .exec((err, game) => {
             let GK = game[0].GKs[Math.floor(G_index / 2)];
-            console.log(GK.correctAnswerIndex+"  "+req.body.answer);
-            if(req.body.answer === undefined){
+            console.log(GK.correctAnswerIndex + '  ' + req.body.answer);
+            if (req.body.answer === undefined) {
                 return res.send({ answer_correct: 'not selected' });
             }
             if (req.body.answer == GK.correctAnswerIndex) {
@@ -158,8 +203,6 @@ app.get('*', (req, res) => {
     res.send('Oops ! ! ! !');
 });
 app.listen(process.env.PORT || 5000);
-
-
 
 /////////////
 // let express = require('express'),
@@ -199,6 +242,5 @@ app.listen(process.env.PORT || 5000);
 
 // app.use(indexRoutes);
 // app.use(gameRoutes);
-
 
 // app.listen(process.env.PORT || 5000);
