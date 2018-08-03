@@ -39,32 +39,6 @@ let isLoggedIn = (req, res, next) => {
     res.redirect('/login');
 };
 
-let verifySignature = (req, res, next) => {
-    let nonce = req.body.nonce;
-    let signature = req.body.signature.signature;
-    const msg = `I am signing my one-time nonce: ${nonce}`;
-    let publicAddress = req.body.signature.publicAddress;
-    const msgBuffer = ethUtil.toBuffer(msg);
-    const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
-    const signatureBuffer = ethUtil.toBuffer(signature);
-    const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
-    const publicKey = ethUtil.ecrecover(
-        msgHash,
-        signatureParams.v,
-        signatureParams.r,
-        signatureParams.s
-    );
-    const addressBuffer = ethUtil.publicToAddress(publicKey);
-    const address = ethUtil.bufferToHex(addressBuffer);
-
-    // The signature verification is successful if the address found with
-    // ecrecover matches the initial publicAddress
-    if (address.toLowerCase() === publicAddress.toLowerCase()) {
-        return next();
-    } else {
-        res.send({ redirect: '/' });
-    }
-};
 //==============
 //Routes
 //==============
@@ -75,7 +49,7 @@ app.get('/', (req, res) => {
 app.get('/register', (req, res) => {
     res.render('register');
 });
-app.post('/register', verifySignature, (req, res) => {
+app.post('/register', (req, res) => {
     User.register(
         new User({ username: req.body.username, email: req.body.email }),
         req.body.password,

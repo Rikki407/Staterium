@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
-    bcrypt = require('bcrypt');
+    bcrypt = require('bcrypt'),
+    ethUtil = require('ethereumjs-util');
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -34,6 +35,29 @@ UserSchema.statics.authenticate = (email, password, callback) => {
         });
     });
 };
+const verifySignature = (publicAddress, nonce, signature) => {
+    const msg = `I am signing my one-time nonce: ${nonce}`;
+
+    const msgBuffer = ethUtil.toBuffer(msg);
+    const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
+    const signatureBuffer = ethUtil.toBuffer(signature);
+    const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
+    const publicKey = ethUtil.ecrecover(
+        msgHash,
+        signatureParams.v,
+        signatureParams.r,
+        signatureParams.s
+    );
+    const addressBuffer = ethUtil.publicToAddress(publicKey);
+    const address = ethUtil.bufferToHex(addressBuffer);
+
+    // The signature verification is successful if the address found with
+    // ecrecover matches the initial publicAddress
+    if (address.toLowerCase() === publicAddress.toLowerCase()) {
+        return true;
+    }
+    return false;
+};
 UserSchema.methods.ethAddressAuthenticate = (
     ethAddress,
     signature,
@@ -48,6 +72,11 @@ UserSchema.methods.ethAddressAuthenticate = (
             error.status = 401;
             return callback(error);
         }
+        const isSignatureTrue = verifySignature(ethAddress, nonce, signature);
+        if (isSignatureTrue) {
+            return callback(null, user);
+        }
+        return callback();
     });
 };
 
