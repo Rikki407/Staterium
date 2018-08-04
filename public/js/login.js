@@ -26,8 +26,7 @@ App = {
                 App.account = account;
                 //On the Register and Login Page
                 $('#publicKey').val(account);
-                $('#publicKey2').val(account);
-                console.log($('#publicKey2').val());
+                console.log($('#publicKey').val());
                 App.sign();
             }
         });
@@ -54,10 +53,9 @@ App = {
                     type: 'POST',
                     url: '/login',
                     data: {
-                        username: $('#publicKey').val(),
-                        password: $('#publicKey').val(),
+                        ethAddress: res.publicAddress,
                         nonce: nonce,
-                        signature: res
+                        signature: res.signature
                     },
                     success: data => {
                         console.log(data);

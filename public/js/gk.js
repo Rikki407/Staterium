@@ -4,7 +4,7 @@
 const checkAnswer = () => {
     $.ajax({
         type: 'POST',
-        url: '/gk/submit',
+        url: '/gk',
         data: {
             answer: getCheckedValue('answers')
         },

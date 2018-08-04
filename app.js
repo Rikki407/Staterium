@@ -24,11 +24,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + '/public'));
 
-let isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()) {
+const isLoggedIn = (req, res, next) => {
+    if (req.session && req.session.userId) {
         return next();
+    } else {
+        return res.redirect('./login');
     }
-    res.redirect('/login');
 };
 
 //==============
@@ -82,7 +83,6 @@ app.post('/register', (req, res, next) => {
             return res.redirect('/game');
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
-        
         const userData = {
             ethAddress: req.body.ethAddress
         };
@@ -108,7 +108,7 @@ app.post('/register', (req, res, next) => {
 app.get('/login', (req, res) => {
     res.render('login');
 });
-app.post('/login', verifySignature, (req, res, next) => {
+app.post('/login', (req, res, next) => {
     if (req.body.email && req.body.password) {
         User.authenticate(req.body.email, req.body.password, (error, user) => {
             if (error || !user) {
@@ -121,7 +121,7 @@ app.post('/login', verifySignature, (req, res, next) => {
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
         User.ethAddressAuthenticate(
-            req.body.ethAddress,
+            req.body.ethAddres
             req.body.signature,
             req.body.nonce,
             (error, user) => {
@@ -185,7 +185,7 @@ app.get('/gk', isLoggedIn, (req, res) => {
         });
 });
 
-app.post('/gk/submit', isLoggedIn, (req, res) => {
+app.post('/gk', isLoggedIn, (req, res) => {
     Game.find({})
         .populate('GKs')
         .exec((err, game) => {
@@ -202,9 +202,17 @@ app.post('/gk/submit', isLoggedIn, (req, res) => {
         });
 });
 
-app.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/login');
+app.get('/logout', (req, res, next) => {
+    if (req.session) {
+        // delete session object
+        req.session.destroy(err => {
+            if (err) {
+                return next(err);
+            } else {
+                return res.redirect('/');
+            }
+        });
+    }
 });
 
 app.get('*', (req, res) => {

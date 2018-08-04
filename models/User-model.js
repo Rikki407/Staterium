@@ -36,7 +36,7 @@ UserSchema.statics.authenticate = (email, password, callback) => {
 };
 const verifySignature = (publicAddress, nonce, signature) => {
     const msg = `I am signing my one-time nonce: ${nonce}`;
-
+    console.log('HERE frnejwt' + signature);
     const msgBuffer = ethUtil.toBuffer(msg);
     const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
     const signatureBuffer = ethUtil.toBuffer(signature);
@@ -57,12 +57,13 @@ const verifySignature = (publicAddress, nonce, signature) => {
     }
     return false;
 };
-UserSchema.methods.ethAddressAuthenticate = (
+UserSchema.statics.ethAddressAuthenticate = function(
     ethAddress,
     signature,
     nonce,
     callback
-) => {
+) {
+    console.log('HERE!!!!!');
     User.findOne({ ethAddress }).exec((err, user) => {
         if (err) {
             return callback(err);
@@ -79,10 +80,10 @@ UserSchema.methods.ethAddressAuthenticate = (
     });
 };
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', next => {
     const user = this;
     if (user.password) {
-        bcrypt.hash(user.password, 10, function(err, hash) {
+        bcrypt.hash(user.password, 10, (err, hash) => {
             if (err) {
                 return next(err);
             }
