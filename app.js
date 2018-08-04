@@ -121,7 +121,7 @@ app.post('/login', (req, res, next) => {
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
         User.ethAddressAuthenticate(
-            req.body.ethAddres
+            req.body.ethAddress,
             req.body.signature,
             req.body.nonce,
             (error, user) => {

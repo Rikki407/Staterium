@@ -80,17 +80,19 @@ UserSchema.statics.ethAddressAuthenticate = function(
     });
 };
 
-UserSchema.pre('save', next => {
-    const user = this;
+UserSchema.pre('save', function(next) {
+    var user = this;
     if (user.password) {
-        bcrypt.hash(user.password, 10, (err, hash) => {
+        bcrypt.hash(user.password, 10, function(err, hash) {
             if (err) {
                 return next(err);
             }
             user.password = hash;
+            next();
         });
+    } else {
+        next();
     }
-    next();
 });
 const User = mongoose.model('User', UserSchema);
 
