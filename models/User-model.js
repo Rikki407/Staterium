@@ -20,7 +20,18 @@ const UserSchema = new mongoose.Schema({
     G_index: {
         type: Number,
         default: -1
-    }
+    },
+    staked: [
+        {
+            twrIndex: Number,
+            value:Number
+        }
+    ],
+    correctAnswers: [
+        {
+            gkIndex: Number,
+        }
+    ]
 });
 UserSchema.statics.authenticate = (email, password, callback) => {
     User.findOne({ email }).exec((err, user) => {

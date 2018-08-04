@@ -4,6 +4,7 @@
         "arrow-body-style":"off",
         "no-param-reassign":"off",
         "no-underscore-dangle":"off",
-        "one-var":"off"
+        "one-var":"off",
+        "no-lonely-if":"off"
     }
 }

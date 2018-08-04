@@ -33,9 +33,8 @@ app.use(express.static(__dirname + '/public'));
 const isLoggedIn = (req, res, next) => {
     if (req.session && req.session.userId) {
         return next();
-    } else {
-        return res.redirect('./login');
     }
+    return res.redirect('/login');
 };
 
 //==============
@@ -147,35 +146,67 @@ app.post('/login', (req, res, next) => {
 // Game Routes
 //////
 app.get('/game', isLoggedIn, (req, res) => {
-    res.redirect('/game/next');
+    User.findById(req.session.userId, (error, user) => {
+        if (user.G_index === -1) {
+            user.G_index += 1;
+        }
+        user.save(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                req.session.G_index = user.G_index;
+                console.log('game' + user.G_index);
+                if (user.G_index % 2 === 0) {
+                    res.redirect('/twr');
+                } else {
+                    res.redirect('/gk');
+                }
+            }
+        });
+    });
 });
 app.get('/game/next', isLoggedIn, (req, res) => {
-    User.findById(req.session.userId, (err, user) => {
+    User.findById(req.session.userId, (error, user) => {
         user.G_index += 1;
-        if (user.G_index % 2 === 0) {
-            res.redirect('/twr');
-        } else {
-            res.redirect('/gk');
-        }
+        req.session.G_index = user.G_index;
+        user.save(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                if (user.G_index % 2 === 0) {
+                    res.redirect('/twr');
+                } else {
+                    res.redirect('/gk');
+                }
+            }
+        });
     });
 });
 app.get('/game/prev', isLoggedIn, (req, res) => {
-    User.findById(req.session.userId, (err, user) => {
+    User.findById(req.session.userId, (error, user) => {
+        console.log('prev' + user.G_index);
         user.G_index -= 1;
-        if (user.G_index % 2 === 0) {
-            res.redirect('/twr');
-        } else {
-            res.redirect('/gk');
-        }
+        req.session.G_index = user.G_index;
+        user.save(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                if (user.G_index % 2 === 0) {
+                    return res.redirect('/twr');
+                } else {
+                    return res.redirect('/gk');
+                }
+            }
+        });
     });
 });
 app.get('/twr', isLoggedIn, (req, res) => {
     Game.find({})
         .populate('TWRs')
         .exec((err, game) => {
-            let TWR = game[0].TWRs[G_index / 2];
+            let TWR = game[0].TWRs[req.session.G_index / 2];
             if (TWR === null || TWR === undefined) {
-                res.render('home');
+                res.redirect('/');
             } else {
                 res.render('twr', { TWR });
             }
@@ -185,11 +216,10 @@ app.get('/gk', isLoggedIn, (req, res) => {
     Game.find({})
         .populate('GKs')
         .exec((err, game) => {
-            let GK = game[0].GKs[Math.floor(G_index / 2)];
+            let GK = game[0].GKs[Math.floor(req.session.G_index / 2)];
             if (GK === null || GK === undefined) {
-                res.render('home');
+                res.redirect('/');
             } else {
-                console.log(GK);
                 res.render('gk', { GK });
             }
         });
@@ -199,7 +229,7 @@ app.post('/gk', isLoggedIn, (req, res) => {
     Game.find({})
         .populate('GKs')
         .exec((err, game) => {
-            let GK = game[0].GKs[Math.floor(G_index / 2)];
+            let GK = game[0].GKs[Math.floor(req.session.G_index / 2)];
             console.log(GK.correctAnswerIndex + '  ' + req.body.answer);
             if (req.body.answer === undefined) {
                 return res.send({ answer_correct: 'not selected' });
