@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String
+    },
+    G_index: {
+        type: Number,
+        default: -1
     }
 });
 UserSchema.statics.authenticate = (email, password, callback) => {

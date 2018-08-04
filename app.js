@@ -149,22 +149,25 @@ app.post('/login', (req, res, next) => {
 app.get('/game', isLoggedIn, (req, res) => {
     res.redirect('/game/next');
 });
-let G_index = -1;
 app.get('/game/next', isLoggedIn, (req, res) => {
-    G_index++;
-    if (G_index % 2 == 0) {
-        res.redirect('/twr');
-    } else {
-        res.redirect('/gk');
-    }
+    User.findById(req.session.userId, (err, user) => {
+        user.G_index += 1;
+        if (user.G_index % 2 === 0) {
+            res.redirect('/twr');
+        } else {
+            res.redirect('/gk');
+        }
+    });
 });
 app.get('/game/prev', isLoggedIn, (req, res) => {
-    G_index--;
-    if (G_index % 2 == 0) {
-        res.redirect('/twr');
-    } else {
-        res.redirect('/gk');
-    }
+    User.findById(req.session.userId, (err, user) => {
+        user.G_index -= 1;
+        if (user.G_index % 2 === 0) {
+            res.redirect('/twr');
+        } else {
+            res.redirect('/gk');
+        }
+    });
 });
 app.get('/twr', isLoggedIn, (req, res) => {
     Game.find({})
