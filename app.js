@@ -2,6 +2,8 @@ const express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
+    session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
     User = require('./models/User-model'),
     seedDb = require('./seed'),
     ethUtil = require('ethereumjs-util'),
@@ -9,11 +11,15 @@ const express = require('express'),
 
 const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
 mongoose.connect(url);
+const db = mongoose.connection;
 app.use(
-    require('express-session')({
+    session({
         secret: 'Minimlaborumeulaboreexcepteurquisnostrud',
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
+        store: new MongoStore({
+            mongooseConnection: db
+        })
     })
 );
 
