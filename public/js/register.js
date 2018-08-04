@@ -48,6 +48,7 @@ const App = {
         let nonce = Math.floor(Math.random() * 1000000);
         $('#signup_btn').click(() => {
             signMessage(publicAddress, nonce).then(res => {
+                let email = $('#email').val();
                 console.log(res);
                 $.ajax({
                     type: 'POST',
@@ -55,7 +56,8 @@ const App = {
                     data: {
                         ethAddress: res.publicAddress,
                         nonce: nonce,
-                        signature: res.signature
+                        signature: res.signature,
+                        email: email
                     },
                     success: data => {
                         if (typeof data.redirect === 'string')

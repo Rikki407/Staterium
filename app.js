@@ -84,7 +84,8 @@ app.post('/register', (req, res, next) => {
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
         const userData = {
-            ethAddress: req.body.ethAddress
+            ethAddress: req.body.ethAddress,
+            email: req.body.email
         };
         if (
             verifySignature(
@@ -96,7 +97,7 @@ app.post('/register', (req, res, next) => {
             User.create(userData, (err, user) => {
                 if (err) {
                     console.log(err);
-                    return res.send({ redirect: '/hahaahah' });
+                    return res.send({ redirect: '/register' });
                 }
                 req.session.userId = user._id;
                 return res.send({ redirect: '/game' });
