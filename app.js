@@ -38,7 +38,6 @@ const isLoggedIn = (req, res, next) => {
     return res.redirect('/register');
 };
 
-
 //==Email Verification===
 const smtpTransport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -49,7 +48,27 @@ const smtpTransport = nodemailer.createTransport({
         pass: process.env.GMAIL_PASSWORD
     }
 });
-let rand, mailOptions, host, link;
+
+
+app.get('/verify', function(req, res) {
+    console.log(req.protocol + ':/' + req.get('host'));
+    if (req.protocol + '://' + req.get('host') == 'http://' + host) {
+        console.log('Domain is matched. Information is from Authentic email');
+        if (req.query.id == rand) {
+            console.log('email is verified');
+            res.send(
+                '<h1>Email ' +
+                    mailOptions.to +
+                    ' is been Successfully verified</h1>'
+            );
+        } else {
+            console.log('email is not verified');
+            res.end('<h1>Bad Request</h1>');
+        }
+    } else {
+        res.end('<h1>Request is from unknown source');
+    }
+});
 //=======================
 
 //==============
@@ -90,9 +109,11 @@ const verifySignature = (publicAddress, nonce, signature) => {
 };
 app.post('/register', (req, res, next) => {
     if (req.body.email && req.body.password) {
+        const temporaryToken = Math.floor(Math.random() * 1000000);
         const userData = {
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            temporaryToken: temporaryToken
         };
         //use schema.create to insert data into the db
         User.create(userData, (err, user) => {
@@ -100,6 +121,26 @@ app.post('/register', (req, res, next) => {
                 return next(err);
             }
             req.session.userId = user._id;
+            const host = req.get('host');
+            const link =
+                'http://' + req.get('host') + '/verify?id=' + temporaryToken;
+            mailOptions = {
+                to: user.email,
+                subject: 'Please confirm your Email account',
+                html: `Hello,<br> Please Click on the link to verify your email.<br><a href=
+                    ${link}
+                    >Click here to verify</a>`
+            };
+            console.log(mailOptions);
+            smtpTransport.sendMail(mailOptions, function(error, response) {
+                if (error) {
+                    console.log(error);
+                    res.end('error');
+                } else {
+                    console.log('Message sent: ' + response.message);
+                    res.end('sent');
+                }
+            });
             return res.redirect('/game');
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {

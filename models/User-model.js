@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
         default: false
     },
     temporaryToken: {
-        type: String,
+        type: Number,
         required: true
     },
     ethAddress: {
