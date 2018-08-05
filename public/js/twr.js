@@ -16,6 +16,20 @@ $('#modal').on('show.bs.modal', function(event) {
     }
     modal.find('.modal-title').text('Stake str on  ' + recipient);
 });
+$('#bttn0').on('click', function(event) {
+    if ($(this).hasClass('disabled')) {
+        event.stopPropagation();
+    } else {
+        $('#modal').modal('show');
+    }
+});
+$('#bttn1').on('click', function(event) {
+    if ($(this).hasClass('disabled')) {
+        event.stopPropagation();
+    } else {
+        $('#modal').modal('show');
+    }
+});
 $('#stakeButton').click(() => {
     console.log($('#modal #stakeButton').data('project'));
     console.log(Number($('#stakeValue').val()));
@@ -29,16 +43,11 @@ $('#stakeButton').click(() => {
         success: data => {
             console.log(data);
             $('#bttn0').addClass('disabled');
-            toggleModal('#bttn0');
+            $('#bttn1').addClass('disabled');
         }
     });
 });
-let toggleModal = bttnId => {
-    $(bttnId).on('click', function(event) {
-        if ($(this).hasClass('disabled')) {
-            event.stopPropagation();
-        } else {
-            $('#modal').modal('show');
-        }
-    });
+let enableToggleModal = () => {
+    $('#bttn0').removeClass('disabled');
+    $('#bttn1').removeClass('disabled');
 };
