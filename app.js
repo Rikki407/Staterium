@@ -42,7 +42,7 @@ const isLoggedIn = (req, res, next) => {
         }
         return res.redirect('/activateAccount');
     }
-    return res.redirect('/register');
+    return res.redirect('/login');
 };
 console.log(process.env.GMAIL_PASSWORD);
 
@@ -91,7 +91,7 @@ app.get('/activateAccount', (req, res) => {
 //==============
 
 app.get('/', (req, res) => {
-    res.render('home', { rikki: 'Rikki' });
+    res.render('home');
 });
 
 app.get('/register', (req, res) => {
@@ -155,7 +155,7 @@ app.post('/register', (req, res, next) => {
                     res.end('sent');
                 }
             });
-            return res.send({redirect: '/activateAccount'});
+            return res.redirect('/activateAccount');
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
         const userData = {
@@ -188,7 +188,7 @@ app.get('/login', (req, res) => {
 });
 app.post('/login', (req, res, next) => {
     if (req.body.email && req.body.password) {
-        
+
         User.authenticate(req.body.email, req.body.password, (error, user) => {
             if (error || !user) {
                 const err = new Error('Wrong email or password.');

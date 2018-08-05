@@ -110,37 +110,25 @@ UserSchema.statics.ethAddressAuthenticate = function(
     });
 };
 
-// UserSchema.pre('save', function(next) {
-//     var user = this;
-//     console.log('hehehehe' + user.password);
-
-//     if (user.password) {
-//         console.log('hehehe2' + user.password);
-//         bcrypt.hash(user.password, 10, function(err, hash) {
-//             if (err) {
-//                 return next(err);
-//             }
-//             user.password = hash;
-//             next();
-//         });
-//     } else {
-//         next();
-//     }
-
-// });
-UserSchema.pre('save', function (next) {
-
+UserSchema.pre('save', function(next) {
     var user = this;
     if (!user.isModified('password')) return next();
 
-    bcrypt.hash(user.password, 10, function (err, hash){
-      if (err) {
-        return next(err);
-      }
-      user.password = hash;
-      next();
-    })
-  });
+    if (user.password) {
+        bcrypt.hash(user.password, 10, function(err, hash) {
+            if (err) {
+                return next(err);
+            }
+            user.password = hash;
+            next();
+        });
+    } else {
+        next();
+    }
+
+});
+
+
 const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
