@@ -21,18 +21,22 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         default: -1
     },
-    staked: [
+    stakedProjects: [
         {
-            twrIndex: Number,
-            value:Number
+            twrIndex: Number,  
+            project: Number,    // either 0 or 1
+            value: Number
         }
     ],
     correctAnswers: [
         {
-            gkIndex: Number,
+            gkIndex: Number
         }
     ]
 });
+/*
+    Email Authentication
+*/
 UserSchema.statics.authenticate = (email, password, callback) => {
     User.findOne({ email }).exec((err, user) => {
         if (err) {
@@ -50,6 +54,7 @@ UserSchema.statics.authenticate = (email, password, callback) => {
         });
     });
 };
+
 const verifySignature = (publicAddress, nonce, signature) => {
     const msg = `I am signing my one-time nonce: ${nonce}`;
     console.log('HERE frnejwt' + signature);
@@ -73,13 +78,15 @@ const verifySignature = (publicAddress, nonce, signature) => {
     }
     return false;
 };
+/*
+    Ethereum Public Key Authentication
+*/
 UserSchema.statics.ethAddressAuthenticate = function(
     ethAddress,
     signature,
     nonce,
     callback
 ) {
-    console.log('HERE!!!!!');
     User.findOne({ ethAddress }).exec((err, user) => {
         if (err) {
             return callback(err);

@@ -35,7 +35,8 @@
                 </p>
             </div>
             <div align="center" class="btn-group" role="group" aria-label="Basic example" style="display: block;">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal"> &nbsp&nbspStake&nbsp&nbsp </button>
+                <button type="button" id="bttn0" class="btn btn-success" data-toggle="modal" data-target="#modal" data-whatever="projectA">
+                    &nbsp&nbspStake&nbsp&nbsp </button>
                 <button type="button" class="btn btn-primary">Unstake</button>
             </div>
         </div>
@@ -55,7 +56,8 @@
 
             </div>
             <div align="center" class="btn-group" role="group" aria-label="Basic example" style="display: block;">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal"> &nbsp&nbspStake&nbsp&nbsp </button>
+                <button type="button" id="bttn1" class="btn btn-success" data-toggle="modal" data-target="#modal" data-whatever="projectB">
+                    &nbsp&nbspStake&nbsp&nbsp </button>
                 <button type="button" class="btn btn-primary">Unstake</button>
             </div>
         </div>
@@ -88,15 +90,16 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                            <input type="number" class="form-control" id="stakeValue" >
+                        <input type="number" class="form-control" id="stakeValue">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Stake</button>
+                        <button type="button" id="stakeButton" class="btn btn-primary" data-dismiss="modal" data-project="100">Stake</button>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
     <div id="footer " class="">
         <nav class="navbar fixed-bottom navbar-expand-lg navbar-dark black justify-content-center">
@@ -127,15 +130,7 @@
     <script src="js/truffle-contract.js "></script>
     <script src="js/smartcontract.js "></script>
     <script src="js/card-animation.js"></script>
-    <script>
-        let nextPage = () => {
-            window.location.replace("/game/next");
-        }
-        let prevPage = () => {
-            window.location.replace("/game/prev");
-        }
-    </script>
-
+    <script src="js/twr.js"></script>
     </body>
 
     </html>

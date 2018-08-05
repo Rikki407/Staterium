@@ -105,7 +105,7 @@ app.post('/register', (req, res, next) => {
                     return res.send({ redirect: '/register' });
                 }
                 req.session.userId = user._id;
-                return res.send({ redirect: '/game' });
+                return res.send({ redirect: '/' });
             });
         }
     }
@@ -211,6 +211,22 @@ app.get('/twr', isLoggedIn, (req, res) => {
                 res.render('twr', { TWR });
             }
         });
+});
+app.post('/twr', isLoggedIn, (req, res) => {
+    User.findById(req.session.userId, (error, user) => {
+        user.stakedProjects.push({
+            twrIndex: req.session.G_index,
+            project: req.body.project, // either 0 or 1
+            value: req.body.value
+        });
+        user.save(err => {
+            if (err) {
+                console.log(err);
+                return res.send(err);
+            }
+            return res.send(true);
+        });
+    });
 });
 app.get('/gk', isLoggedIn, (req, res) => {
     Game.find({})
