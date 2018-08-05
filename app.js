@@ -34,39 +34,48 @@ app.use(express.static(__dirname + '/public'));
 
 const isLoggedIn = (req, res, next) => {
     if (req.session && req.session.userId) {
-        return next();
+        console.log('blaha hajaj' + req.session.active + req.session.userId);
+        if (req.session.active === undefined) {
+            return res.redirect('/logout');
+        } else if (req.session.active === true) {
+            return next();
+        }
+        return res.redirect('/activateAccount');
     }
     return res.redirect('/register');
 };
+console.log(process.env.GMAIL_PASSWORD);
 
 //==Email Verification===
 const smtpTransport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-
     auth: {
         type: 'login', // default
         user: 'rishablamba407@gmail.com',
-        pass: process.env.GMAIL_PASSWORD
+        pass: 'gsoc2018'
     }
 });
 
 app.get('/verify', function(req, res) {
     User.findById(req.query.id, (err, user) => {
-        console.log(req.protocol + ':/' + req.get('host'));
-        if (req.protocol + '://' + req.get('host') === 'http://' + host) {
-            console.log(
-                'Domain is matched. Information is from Authentic email'
-            );
-            user.active = true;
-            console.log('email is verified');
-            user.save(err => {
-                if (err) {
-                    res.send(err);
-                } else {
-                    console.log('User Account activated');
-                    res.redirect('/');
-                }
-            });
+        if (user) {
+            console.log(req.protocol + ':/' + req.get('host'));
+            if (req.protocol + '://' + req.get('host') === 'http://' + host) {
+                console.log(
+                    'Domain is matched. Information is from Authentic email'
+                );
+                user.active = true;
+                req.session.active = true;
+                console.log('email is verified' + req.session.active);
+                user.save(err => {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        console.log('User Account activated');
+                        res.redirect('/');
+                    }
+                });
+            }
         } else {
             res.send('<h1>Request is from unknown source</h1>');
         }
@@ -114,10 +123,12 @@ const verifySignature = (publicAddress, nonce, signature) => {
     return false;
 };
 app.post('/register', (req, res, next) => {
+    console.log('Hey Bitch');
     if (req.body.email && req.body.password) {
+        console.log('hehehehe' + req.body.password);
         const userData = {
             email: req.body.email,
-            password: req.body.password,
+            password: req.body.password
         };
         //use schema.create to insert data into the db
         User.create(userData, (err, user) => {
@@ -127,7 +138,7 @@ app.post('/register', (req, res, next) => {
             req.session.userId = user._id;
             host = req.get('host');
             const link = 'http://' + req.get('host') + '/verify?id=' + user._id;
-            mailOptions = {
+            const mailOptions = {
                 to: user.email,
                 subject: 'Please confirm your Email account',
                 html: `Hello,<br> Please Click on the link to verify your email.<br><a href=
@@ -144,7 +155,7 @@ app.post('/register', (req, res, next) => {
                     res.end('sent');
                 }
             });
-            return res.redirect('/activateAccount');
+            return res.send({redirect: '/activateAccount'});
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
         const userData = {
@@ -167,6 +178,8 @@ app.post('/register', (req, res, next) => {
                 return res.send({ redirect: '/' });
             });
         }
+    } else {
+        return res.send({ redirect: '/qefuwhwgr' });
     }
 });
 //Login Routes
@@ -175,6 +188,7 @@ app.get('/login', (req, res) => {
 });
 app.post('/login', (req, res, next) => {
     if (req.body.email && req.body.password) {
+        
         User.authenticate(req.body.email, req.body.password, (error, user) => {
             if (error || !user) {
                 const err = new Error('Wrong email or password.');
@@ -182,6 +196,7 @@ app.post('/login', (req, res, next) => {
                 return next(err);
             }
             req.session.userId = user._id;
+            req.session.active = user.active;
             return res.redirect('/game');
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
@@ -324,7 +339,7 @@ app.get('/logout', (req, res, next) => {
             if (err) {
                 return next(err);
             } else {
-                return res.redirect('/');
+                return res.redirect('/login');
             }
         });
     }

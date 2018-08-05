@@ -28,8 +28,8 @@ const UserSchema = new mongoose.Schema({
     },
     stakedProjects: [
         {
-            twrIndex: Number,  
-            project: Number,    // either 0 or 1
+            twrIndex: Number,
+            project: Number, // either 0 or 1
             value: Number
         }
     ],
@@ -39,26 +39,28 @@ const UserSchema = new mongoose.Schema({
         }
     ]
 });
-/*
-    Email Authentication
-*/
-UserSchema.statics.authenticate = (email, password, callback) => {
-    User.findOne({ email }).exec((err, user) => {
+
+
+//authenticate input against database
+UserSchema.statics.authenticate = function (email, password, callback) {
+    User.findOne({ email: email })
+      .exec(function (err, user) {
         if (err) {
-            return callback(err);
+          return callback(err)
         } else if (!user) {
-            const error = new Error('User not found.');
-            error.status = 401;
-            return callback(error);
+          var err = new Error('User not found.');
+          err.status = 401;
+          return callback(err);
         }
-        bcrypt.compare(password, user.password, (error, result) => {
-            if (result === true) {
-                return callback(null, user);
-            }
+        bcrypt.compare(password, user.password, function (err, result) {
+          if (result === true) {
+            return callback(null, user);
+          } else {
             return callback();
-        });
-    });
-};
+          }
+        })
+      });
+  }
 
 const verifySignature = (publicAddress, nonce, signature) => {
     const msg = `I am signing my one-time nonce: ${nonce}`;
@@ -108,20 +110,37 @@ UserSchema.statics.ethAddressAuthenticate = function(
     });
 };
 
-UserSchema.pre('save', function(next) {
+// UserSchema.pre('save', function(next) {
+//     var user = this;
+//     console.log('hehehehe' + user.password);
+
+//     if (user.password) {
+//         console.log('hehehe2' + user.password);
+//         bcrypt.hash(user.password, 10, function(err, hash) {
+//             if (err) {
+//                 return next(err);
+//             }
+//             user.password = hash;
+//             next();
+//         });
+//     } else {
+//         next();
+//     }
+
+// });
+UserSchema.pre('save', function (next) {
+
     var user = this;
-    if (user.password) {
-        bcrypt.hash(user.password, 10, function(err, hash) {
-            if (err) {
-                return next(err);
-            }
-            user.password = hash;
-            next();
-        });
-    } else {
-        next();
-    }
-});
+    if (!user.isModified('password')) return next();
+
+    bcrypt.hash(user.password, 10, function (err, hash){
+      if (err) {
+        return next(err);
+      }
+      user.password = hash;
+      next();
+    })
+  });
 const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
