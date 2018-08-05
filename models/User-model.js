@@ -9,6 +9,15 @@ const UserSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    active: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    temporaryToken: {
+        type: String,
+        required: true
+    },
     ethAddress: {
         type: String,
         unique: true,

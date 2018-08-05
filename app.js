@@ -7,7 +7,8 @@ const express = require('express'),
     User = require('./models/User-model'),
     seedDb = require('./seed'),
     ethUtil = require('ethereumjs-util'),
-    Game = require('./models/Game-model');
+    Game = require('./models/Game-model'),
+    nodemailer = require('nodemailer');
 
 const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
 mongoose.connect(url);
@@ -34,8 +35,22 @@ const isLoggedIn = (req, res, next) => {
     if (req.session && req.session.userId) {
         return next();
     }
-    return res.redirect('/login');
+    return res.redirect('/register');
 };
+
+
+//==Email Verification===
+const smtpTransport = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+
+    auth: {
+        type: 'login', // default
+        user: 'rishablamba407@gmail.com',
+        pass: process.env.GMAIL_PASSWORD
+    }
+});
+let rand, mailOptions, host, link;
+//=======================
 
 //==============
 //Routes
@@ -206,7 +221,7 @@ app.get('/twr', isLoggedIn, (req, res) => {
         .exec((err, game) => {
             let TWR = game[0].TWRs[req.session.G_index / 2];
             if (TWR === null || TWR === undefined) {
-                res.redirect('/');
+                res.redirect('/endGame');
             } else {
                 res.render('twr', { TWR });
             }
@@ -269,6 +284,9 @@ app.get('/logout', (req, res, next) => {
             }
         });
     }
+});
+app.get('/endGame', (req, res) => {
+    res.render('endGame');
 });
 
 app.get('*', (req, res) => {
