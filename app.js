@@ -13,6 +13,7 @@ const express = require('express'),
 const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
 mongoose.connect(url);
 const db = mongoose.connection;
+let host;
 app.use(
     session({
         secret: 'Minimlaborumeulaboreexcepteurquisnostrud',
@@ -49,25 +50,30 @@ const smtpTransport = nodemailer.createTransport({
     }
 });
 
-
 app.get('/verify', function(req, res) {
-    console.log(req.protocol + ':/' + req.get('host'));
-    if (req.protocol + '://' + req.get('host') == 'http://' + host) {
-        console.log('Domain is matched. Information is from Authentic email');
-        if (req.query.id == rand) {
-            console.log('email is verified');
-            res.send(
-                '<h1>Email ' +
-                    mailOptions.to +
-                    ' is been Successfully verified</h1>'
+    User.findById(req.query.id, (err, user) => {
+        console.log(req.protocol + ':/' + req.get('host'));
+        if (req.protocol + '://' + req.get('host') === 'http://' + host) {
+            console.log(
+                'Domain is matched. Information is from Authentic email'
             );
+            user.active = true;
+            console.log('email is verified');
+            user.save(err => {
+                if (err) {
+                    res.send(err);
+                } else {
+                    console.log('User Account activated');
+                    res.redirect('/');
+                }
+            });
         } else {
-            console.log('email is not verified');
-            res.end('<h1>Bad Request</h1>');
+            res.send('<h1>Request is from unknown source</h1>');
         }
-    } else {
-        res.end('<h1>Request is from unknown source');
-    }
+    });
+});
+app.get('/activateAccount', (req, res) => {
+    res.render('activateAccount');
 });
 //=======================
 
@@ -109,11 +115,9 @@ const verifySignature = (publicAddress, nonce, signature) => {
 };
 app.post('/register', (req, res, next) => {
     if (req.body.email && req.body.password) {
-        const temporaryToken = Math.floor(Math.random() * 1000000);
         const userData = {
             email: req.body.email,
             password: req.body.password,
-            temporaryToken: temporaryToken
         };
         //use schema.create to insert data into the db
         User.create(userData, (err, user) => {
@@ -121,9 +125,8 @@ app.post('/register', (req, res, next) => {
                 return next(err);
             }
             req.session.userId = user._id;
-            const host = req.get('host');
-            const link =
-                'http://' + req.get('host') + '/verify?id=' + temporaryToken;
+            host = req.get('host');
+            const link = 'http://' + req.get('host') + '/verify?id=' + user._id;
             mailOptions = {
                 to: user.email,
                 subject: 'Please confirm your Email account',
@@ -141,7 +144,7 @@ app.post('/register', (req, res, next) => {
                     res.end('sent');
                 }
             });
-            return res.redirect('/game');
+            return res.redirect('/activateAccount');
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
         const userData = {
