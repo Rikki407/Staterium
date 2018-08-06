@@ -1,17 +1,69 @@
-const express = require('express');
+const express = require('express'),
+    router = express.Router(),
+    ethUtil = require('ethereumjs-util'),
+    nodemailer = require('nodemailer'),
+    User = require('../models/User-model');
 
-const router = express.Router();
-const User = require('../models/User-model');
-const passport = require('passport');
-const ethUtil = require('ethereumjs-util');
+console.log(process.env.GMAIL_PASSWORD);
 
-const verifySignature = (req, res, next) => {
-    const nonce = req.body.nonce;
-    const signature = req.body.signature.signature;
+//==Email Verification===
+const smtpTransport = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    auth: {
+        type: 'login', // default
+        user: 'rishablamba407@gmail.com',
+        pass: process.env.PASSWORD
+    }
+});
+
+router.get('/verify', function(req, res) {
+    User.findById(req.query.id, (err, user) => {
+        if (user) {
+            console.log(req.protocol + ':/' + req.get('host'));
+            if (req.protocol + '://' + req.get('host') === 'http://' + host) {
+                console.log(
+                    'Domain is matched. Information is from Authentic email'
+                );
+                user.active = true;
+                req.session.active = true;
+                console.log('email is verified' + req.session.active);
+                user.save(err => {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        console.log('User Account activated');
+                        res.redirect('/');
+                    }
+                });
+            }
+        } else {
+            res.send('<h1>Request is from unknown source</h1>');
+        }
+    });
+});
+router.get('/activateAccount', (req, res) => {
+    res.render('activateAccount');
+});
+//=======================
+
+//==============
+//Routes
+//==============
+
+router.get('/', (req, res) => {
+    res.render('home');
+});
+
+router.get('/register', (req, res) => {
+    res.render('register');
+});
+
+const verifySignature = (publicAddress, nonce, signature) => {
     const msg = `I am signing my one-time nonce: ${nonce}`;
-    const publicAddress = req.body.signature.publicAddress;
+
     const msgBuffer = ethUtil.toBuffer(msg);
     const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
+    console.log(signature);
     const signatureBuffer = ethUtil.toBuffer(signature);
     const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
     const publicKey = ethUtil.ecrecover(
@@ -26,53 +78,102 @@ const verifySignature = (req, res, next) => {
     // The signature verification is successful if the address found with
     // ecrecover matches the initial publicAddress
     if (address.toLowerCase() === publicAddress.toLowerCase()) {
-        return next();
+        return true;
     }
-    res.send({ redirect: '/' });
+    return false;
 };
-router.get('/', (req, res) => {
-    res.render('home', { rikki: 'Rikki' });
-});
-router.get('/register', (req, res) => {
-    res.render('register');
-});
-router.post('/register', verifySignature, (req, res) => {
-    User.register(
-        new User({ username: req.body.username, email: req.body.email }),
-        req.body.password,
-        err => {
+router.post('/register', (req, res, next) => {
+    console.log('Hey Bitch');
+    if (req.body.email && req.body.password) {
+        console.log('hehehehe' + req.body.password);
+        const userData = {
+            email: req.body.email,
+            password: req.body.password
+        };
+        //use schema.create to insert data into the db
+        User.create(userData, (err, user) => {
             if (err) {
-                res.send({ redirect: '/register' });
+                return next(err);
             }
-            passport.authenticate('local')(req, res, () => {
-                res.send({ redirect: '/game' });
+            req.session.userId = user._id;
+            host = req.get('host');
+            const link = 'http://' + req.get('host') + '/verify?id=' + user._id;
+            const mailOptions = {
+                to: user.email,
+                subject: 'Please confirm your Email account',
+                html: `Hello,<br> Please Click on the link to verify your email.<br><a href=
+                    ${link}
+                    >Click here to verify</a>`
+            };
+            console.log(mailOptions);
+            smtpTransport.sendMail(mailOptions, function(error, response) {
+                if (error) {
+                    console.log(error);
+                    res.end('error');
+                } else {
+                    console.log('Message sent: ' + response.message);
+                    res.end('sent');
+                }
+            });
+            return res.redirect('/activateAccount');
+        });
+    } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
+        const userData = {
+            ethAddress: req.body.ethAddress,
+            email: req.body.email
+        };
+        if (
+            verifySignature(
+                req.body.ethAddress,
+                req.body.nonce,
+                req.body.signature
+            )
+        ) {
+            User.create(userData, (err, user) => {
+                if (err) {
+                    console.log(err);
+                    return res.send({ redirect: '/register' });
+                }
+                req.session.userId = user._id;
+                return res.send({ redirect: '/' });
             });
         }
-    );
+    } else {
+        return res.send({ redirect: '/qefuwhwgr' });
+    }
 });
-
+//Login Routes
 router.get('/login', (req, res) => {
     res.render('login');
 });
-router.post('/login', verifySignature, (req, res, next) => {
-    passport.authenticate('local', (err, user) => {
-        if (err) {
-            return next(err);
-        }
-        if (!user) {
-            return res.send({ redirect: '/register' });
-        }
-        req.logIn(user, (err2) => {
-            if (err2) {
-                return next(err2);
+router.post('/login', (req, res, next) => {
+    if (req.body.email && req.body.password) {
+        User.authenticate(req.body.email, req.body.password, (error, user) => {
+            if (error || !user) {
+                const err = new Error('Wrong email or password.');
+                err.status = 401;
+                return next(err);
             }
-            return res.send({ redirect: '/game' });
+            req.session.userId = user._id;
+            req.session.active = user.active;
+            return res.redirect('/game');
         });
-    })(req, res, next);
-});
-router.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/login');
+    } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
+        User.ethAddressAuthenticate(
+            req.body.ethAddress,
+            req.body.signature,
+            req.body.nonce,
+            (error, user) => {
+                if (error || !user) {
+                    const err = new Error('Wrong email or password.');
+                    err.status = 401;
+                    return next(err);
+                }
+                req.session.userId = user._id;
+                return res.send({ redirect: '/game' });
+            }
+        );
+    }
 });
 
 module.exports = router;
