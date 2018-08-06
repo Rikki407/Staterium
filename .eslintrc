@@ -5,6 +5,7 @@
         "no-param-reassign":"off",
         "no-underscore-dangle":"off",
         "one-var":"off",
-        "no-lonely-if":"off"
+        "no-lonely-if":"off",
+        "no-shadow":"off"
     }
 }

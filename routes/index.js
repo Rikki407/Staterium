@@ -16,6 +16,25 @@ const smtpTransport = nodemailer.createTransport({
     }
 });
 let host;
+const sendVerificationMail = (user, host) => {
+    const link = 'http://' + host + '/verify?id=' + user._id;
+    const mailOptions = {
+        to: user.email,
+        subject: 'Please confirm your Email account',
+        html: `Hello,<br> Please Click on the link to verify your email.<br><a href=
+                            ${link}
+                            >Click here to verify</a>`
+    };
+    console.log(mailOptions);
+
+    smtpTransport.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Message sent: ' + response);
+        }
+    });
+};
 
 router.get('/verify', (req, res) => {
     User.findById(req.query.id, (err, user) => {
@@ -98,25 +117,7 @@ router.post('/register', (req, res, next) => {
                 return next(err);
             }
             req.session.userId = user._id;
-            const link = 'http://' + req.get('host') + '/verify?id=' + user._id;
-            const mailOptions = {
-                to: user.email,
-                subject: 'Please confirm your Email account',
-                html: `Hello,<br> Please Click on the link to verify your email.<br><a href=
-                            ${link}
-                            >Click here to verify</a>`
-            };
-            console.log(mailOptions);
-
-            smtpTransport.sendMail(mailOptions, function(error, response) {
-                if (error) {
-                    console.log(error);
-                    res.end('error');
-                } else {
-                    console.log('Message sent: ' + response.message);
-                    res.end('sent');
-                }
-            });
+            sendVerificationMail(user, req.get('host'));
             return res.redirect('/activateAccount');
         });
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
@@ -137,25 +138,7 @@ router.post('/register', (req, res, next) => {
                     return res.send({ redirect: '/register' });
                 }
                 req.session.userId = user._id;
-                const link =
-                    'http://' + req.get('host') + '/verify?id=' + user._id;
-                const mailOptions = {
-                    to: user.email,
-                    subject: 'Please confirm your Email account',
-                    html: `Hello,<br> Please Click on the link to verify your email.<br><a href=
-                                ${link}
-                                >Click here to verify</a>`
-                };
-                console.log(mailOptions);
-                smtpTransport.sendMail(mailOptions, function(error, response) {
-                    if (error) {
-                        console.log(error);
-                        res.end('error');
-                    } else {
-                        console.log('Message sent: ' + response.message);
-                        res.end('sent');
-                    }
-                });
+                sendVerificationMail(user, req.get('host'));
                 return res.send({ redirect: '/activateAccount' });
             });
         }
@@ -202,9 +185,8 @@ router.get('/logout', (req, res, next) => {
         req.session.destroy(err => {
             if (err) {
                 return next(err);
-            } else {
-                return res.redirect('/login');
             }
+            return res.redirect('/login');
         });
     }
 });
