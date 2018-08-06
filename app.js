@@ -24,7 +24,6 @@ app.use(
         })
     })
 );
-
 seedDb();
 app.set('view engine', 'ejs');
 
@@ -34,7 +33,6 @@ app.use(express.static(__dirname + '/public'));
 
 const isLoggedIn = (req, res, next) => {
     if (req.session && req.session.userId) {
-        console.log('blaha hajaj' + req.session.active + req.session.userId);
         if (req.session.active === undefined) {
             return res.redirect('/logout');
         } else if (req.session.active === true) {
@@ -52,7 +50,7 @@ const smtpTransport = nodemailer.createTransport({
     auth: {
         type: 'login', // default
         user: 'rishablamba407@gmail.com',
-        pass: 'gsoc2018'
+        pass: process.env.PASSWORD
     }
 });
 
@@ -188,7 +186,6 @@ app.get('/login', (req, res) => {
 });
 app.post('/login', (req, res, next) => {
     if (req.body.email && req.body.password) {
-
         User.authenticate(req.body.email, req.body.password, (error, user) => {
             if (error || !user) {
                 const err = new Error('Wrong email or password.');
