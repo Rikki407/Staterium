@@ -6,9 +6,7 @@ const express = require('express'),
     MongoStore = require('connect-mongo')(session),
     User = require('./models/User-model'),
     seedDb = require('./seed'),
-    ethUtil = require('ethereumjs-util'),
-    Game = require('./models/Game-model'),
-    nodemailer = require('nodemailer');
+    Game = require('./models/Game-model');
 
 const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
 mongoose.connect(url);
@@ -36,14 +34,22 @@ const authRoutes = require('./routes/index');
 
 const isLoggedIn = (req, res, next) => {
     if (req.session && req.session.userId) {
-        if (req.session.active === undefined) {
-            return res.redirect('/logout');
-        } else if (req.session.active === true) {
+        if (req.session.active) {
             return next();
+        } else if (req.session.active === undefined) {
+            User.findById(req.session.userId, (err, user) => {
+                if (user.active) {
+                    req.session.active = true;
+                    return next();
+                }
+                return res.redirect('/activateAccount');
+            });
+        } else {
+            return res.redirect('/activateAccount');
         }
-        return res.redirect('/activateAccount');
+    } else {
+        return res.redirect('/login');
     }
-    return res.redirect('/login');
 };
 
 //////
@@ -162,18 +168,6 @@ app.post('/gk', isLoggedIn, (req, res) => {
         });
 });
 
-app.get('/logout', (req, res, next) => {
-    if (req.session) {
-        // delete session object
-        req.session.destroy(err => {
-            if (err) {
-                return next(err);
-            } else {
-                return res.redirect('/login');
-            }
-        });
-    }
-});
 app.get('/endGame', (req, res) => {
     res.render('endGame');
 });
