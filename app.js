@@ -11,7 +11,6 @@ const express = require('express'),
 const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
 mongoose.connect(url);
 const db = mongoose.connection;
-let host;
 app.use(
     session({
         secret: 'Minimlaborumeulaboreexcepteurquisnostrud',
