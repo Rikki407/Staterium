@@ -12,7 +12,7 @@ const smtpTransport = nodemailer.createTransport({
     auth: {
         type: 'login', // default
         user: 'rishablamba407@gmail.com',
-        pass: process.env.PASSWORD
+        pass: 'radhakulkarni'
     }
 });
 let host;

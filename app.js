@@ -7,6 +7,7 @@ const express = require('express'),
     User = require('./models/User-model'),
     seedDb = require('./seed'),
     Game = require('./models/Game-model');
+TWRx = require('./models/TWR-model');
 
 const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
 mongoose.connect(url);
@@ -125,7 +126,7 @@ app.post('/twr', isLoggedIn, (req, res) => {
     User.findById(req.session.userId, (error, user) => {
         user.stakedProjects.push({
             twrIndex: req.session.G_index,
-            project: req.body.project, // either 0 or 1
+            project: req.body.project, // either 0 or 1 for project A or B
             value: req.body.value
         });
         user.save(err => {
@@ -133,7 +134,44 @@ app.post('/twr', isLoggedIn, (req, res) => {
                 console.log(err);
                 return res.send(err);
             }
-            return res.send(true);
+            Game.find({}, (err, game) => {
+                TWRx.findById(game[0].TWRs[0], (err, twr) => {
+                    if (twr === null || twr === undefined) {
+                        return res.send(err);
+                    } else {
+                    }
+                    if (req.body.project == 0) {
+                        twr.projectA.usersStaked += 1; 
+                    } else {
+                        twr.projectB.usersStaked += 1;
+                    }
+                    console.log(
+                        req.body.project,
+                        twr.projectA.usersStaked,
+                        twr.projectB.usersStaked
+                    );
+                    twr.save(err => {
+                        
+                        if (err) {
+                            return res.send(err);
+                        }
+                        if (
+                            twr.projectA.usersStaked >
+                                twr.projectB.usersStaked &&
+                            req.body.project == 0
+                        ) {
+                            return res.send(true);
+                        } else if (
+                            twr.projectB.usersStaked >
+                                twr.projectA.usersStaked &&
+                            req.body.project == 1
+                        ) {
+                            return res.send(true);
+                        }
+                        return res.send(false);
+                    });
+                });
+            });
         });
     });
 });

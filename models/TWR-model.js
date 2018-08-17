@@ -5,13 +5,21 @@ let twrSchema = new mongoose.Schema({
         logo: String,
         dream: String,
         author: String,
-        description: String
+        description: String,
+        usersStaked: {
+            type: Number,
+            default: 0
+        }
     },
     projectB: {
         logo: String,
         dream: String,
         author: String,
-        description: String
+        description: String,
+        usersStaked: {
+            type: Number,
+            default: 0
+        }
     },
     minStake: Number,
     maxStake: Number,

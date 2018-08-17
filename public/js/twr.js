@@ -6,17 +6,22 @@ let prevPage = () => {
 };
 $('#modal').on('show.bs.modal', function(event) {
     let button = $(event.relatedTarget);
-    let recipient = button.data('whatever');
+    let recipient = button.attr('data-called');
     let modal = $(this);
-    let stakeButton = $('#modal #stakeButton');
     if (recipient === 'projectA') {
-        stakeButton.data('project', 0);
-    } else if (recipient === 'projectB') {
-        stakeButton.data('project', 1);
+        $('#modal #stakeButton').data('project', '0');
+    } else {
+        $('#modal #stakeButton').data('project', '1');
     }
+    console.log(recipient,
+        $('#modal #stakeButton').data('project')
+    );
+
     modal.find('.modal-title').text('Stake str on  ' + recipient);
 });
 $('#bttn0').on('click', function(event) {
+    $('#modal').modal('toggle', $(this));
+
     if ($(this).hasClass('disabled')) {
         event.stopPropagation();
     } else {
@@ -24,6 +29,8 @@ $('#bttn0').on('click', function(event) {
     }
 });
 $('#bttn1').on('click', function(event) {
+    $('#modal').modal('toggle', $(this));
+
     if ($(this).hasClass('disabled')) {
         event.stopPropagation();
     } else {
@@ -37,11 +44,12 @@ $('#stakeButton').click(() => {
         type: 'POST',
         url: '/twr',
         data: {
-            project: $('#modal #stakeButton').data('project'), // either 0 or 1
+            project: $('#modal #stakeButton').data('project'), // either '0' or '1'
             value: Number($('#stakeValue').val())
         },
         success: data => {
             console.log(data);
+            console.log($('#modal #stakeButton').data('project'));
             $('#bttn0').addClass('disabled');
             $('#bttn1').addClass('disabled');
         }
