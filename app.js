@@ -6,7 +6,10 @@ const express = require('express'),
     MongoStore = require('connect-mongo')(session),
     User = require('./models/User-model'),
     seedDb = require('./seed'),
-    Game = require('./models/Game-model');
+    Game = require('./models/Game-model'),
+    Comment = require('./models/Comments-model'),
+    bluebird = require('bluebird');
+
 TWRx = require('./models/TWR-model');
 
 const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
@@ -141,7 +144,7 @@ app.post('/twr', isLoggedIn, (req, res) => {
                     } else {
                     }
                     if (req.body.project == 0) {
-                        twr.projectA.usersStaked += 1; 
+                        twr.projectA.usersStaked += 1;
                     } else {
                         twr.projectB.usersStaked += 1;
                     }
@@ -151,7 +154,6 @@ app.post('/twr', isLoggedIn, (req, res) => {
                         twr.projectB.usersStaked
                     );
                     twr.save(err => {
-                        
                         if (err) {
                             return res.send(err);
                         }
@@ -203,6 +205,60 @@ app.post('/gk', isLoggedIn, (req, res) => {
                 return res.send({ answer_correct: false });
             }
         });
+});
+
+app.post('/comment/', (req, res) => {
+    Comment.create(
+        {
+            content: 'Hi Radha',
+            author: 'Rishab'
+        },
+        (err, comment) => {
+            if (!err) {
+                console.log('Root comment recorded');
+                Comment.create(
+                    {
+                        content: 'Hi Rishab Lamba',
+                        author: 'Radha Kulkarni'
+                    },
+                    (error, com) => {
+                        comment.children.push(com);
+                        comment.save((err, data) => {
+                            if (err) {
+                                console.log(err);
+                            }else{
+                                console.log('Child comment recorded');
+                                res.send(data);
+                            }
+                        });
+                    }
+                );
+            } else {
+                console.log(err);
+            }
+        }
+    );
+});
+
+app.get('/comment/:commentId', (req, res) => {
+    function getComment(userId) {
+        return Comment.findOne({ _id: userId })
+            .lean()
+            .exec()
+            .then(user => {
+                return bluebird.props({
+                    author: user.author,
+                    content: user.content,
+                    children: bluebird.map(user.children, getComment)
+                });
+            });
+    }
+
+    // Then call getUser once on the root node, e.g.
+    getComment(req.params.commentId).then(function(commentTree) {
+        console.log(commentTree);
+        res.render('Feed');
+    });
 });
 
 app.get('/endGame', (req, res) => {

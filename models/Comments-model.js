@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const commentSchema = new mongoose.Schema();
 
 commentSchema.add({
+    author: String,
     content: String,
-    children: [commentSchema],
-    author: String
+    children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comment' }]
 });
 
-module.exports = mongoose.model('TWR', commentSchema);
+module.exports = mongoose.model('comment', commentSchema);
