@@ -207,32 +207,29 @@ app.post('/gk', isLoggedIn, (req, res) => {
         });
 });
 
-app.post('/comment/', (req, res) => {
+app.post('/comment', (req, res) => {
     Comment.create(
         {
-            content: 'Hi Radha',
-            author: 'Rishab'
+            content: 'req.body.content',
+            author: 'req.body.author'
         },
         (err, comment) => {
             if (!err) {
                 console.log('Root comment recorded');
-                Comment.create(
-                    {
-                        content: 'Hi Rishab Lamba',
-                        author: 'Radha Kulkarni'
-                    },
-                    (error, com) => {
-                        comment.children.push(com);
-                        comment.save((err, data) => {
-                            if (err) {
-                                console.log(err);
-                            }else{
-                                console.log('Child comment recorded');
-                                res.send(data);
-                            }
-                        });
-                    }
-                );
+                if (req.body.commentId === '_root') {
+                    return res.send(comment);
+                }
+                Comment.findById(req.body.commentId, (err, rootComment) => {
+                    rootComment.children.push(comment);
+                    rootComment.save((err, data) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log('Child comment recorded');
+                            res.send(data);
+                        }
+                    });
+                });
             } else {
                 console.log(err);
             }
@@ -240,6 +237,9 @@ app.post('/comment/', (req, res) => {
     );
 });
 
+app.get('/comment', (req, res) => {
+    res.render('Feed');
+});
 app.get('/comment/:commentId', (req, res) => {
     function getComment(userId) {
         return Comment.findOne({ _id: userId })
@@ -254,7 +254,6 @@ app.get('/comment/:commentId', (req, res) => {
             });
     }
 
-    // Then call getUser once on the root node, e.g.
     getComment(req.params.commentId).then(function(commentTree) {
         console.log(commentTree);
         res.render('Feed');
