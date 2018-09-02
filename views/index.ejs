@@ -9,7 +9,7 @@
         <!--- basic page needs
     ================================================== -->
         <meta charset="utf-8">
-        <title>D-LOC</title>
+        <title>Starterium</title>
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -23,7 +23,7 @@
             crossorigin="anonymous">
         <link rel="stylesheet" href="css/base.css">
         <link rel="stylesheet" href="css/vendor.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/index.css">
 
         <!-- Paricle JS -->
         <script src="js/particles.js"></script>
@@ -35,8 +35,7 @@
 
         <!-- favicons
     ================================================== -->
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-        <link rel="icon" href="favicon.ico" type="image/x-icon">        
+        <link rel="shortcut icon" href="images/Starterium.png" type="image/x-icon">
     </head>
 
     <body id="top">
@@ -45,12 +44,12 @@
     ================================================== -->
         <header class="s-header">
             <div class="header-logo" style="padding-bottom: 3.5rem;">
-                <h1 style="color: white">D-LOC</h1>
+                <h1 style="color: white">Starterium</h1>
             </div>
             <nav class="header-nav-wrap">
                 <ul class="header-nav">
                     <li class="current"><a class="smoothscroll" href="#home" title="home">Home</a></li>
-                    <li><a class="smoothscroll" href="#about" title="about">Logs</a></li>
+                    <li><a class="smoothscroll" href="#createAccount" title="about">Logs</a></li>
                     <li><a class="smoothscroll" href="#blog" title="blog">Shipments</a></li>
                     <li><a class="smoothscroll" href="#contact" title="contact">Contact</a></li>
                 </ul>
@@ -61,7 +60,7 @@
         </header> <!-- end s-header -->
         <!-- home
    ================================================== -->
-        <section id="home" class="s-home page-hero target-section" data-parallax="scroll" data-image-src="images/bg1.jpg" data-natural-width=3000
+        <section id="home" class="s-home page-hero target-section" data-parallax="scroll" data-image-src="images/Starterium.png" data-natural-width=3000
             data-natural-height=2000 data-position-y=center>
 
             <div class="overlay" id="particles-js"></div>
@@ -70,18 +69,18 @@
                 <div class="row home-content__main">
                     <h3>Hello There</h3>
                     <h1>
-                        D-LOC <br>SOLUTION FOR YOUR<br>SHIPMENT AND MONEY AIDS.
+                        <br>A PLATFORM FOR EARLY STAGE TOKEN DISCOVERY, EVALUATION AND PURCHASE.
                     </h1>
                     <div class="home-content__buttons">
-                        <a href="#works" class="smoothscroll btn btn--stroke">
-                            Transfer Money
+                        <a href="#createAccount" class="smoothscroll btn btn--stroke">
+                            Create Account
                         </a>
-                        <a href="#about" class="smoothscroll btn btn--stroke">
-                            Add Shipments
+                        <a href="#createAccount" class="smoothscroll btn btn--stroke">
+                            Signin
                         </a>
                     </div>
                     <div class="home-content__scroll">
-                        <a href="#about" class="scroll-link smoothscroll">
+                        <a href="#createAccount" class="scroll-link smoothscroll">
                             <span>Scroll Down</span>
                         </a>
                     </div>
@@ -95,43 +94,7 @@
 
         <!-- about
     ================================================== Latest ShipmentsLatest Shipments-->
-        <section id="about" class="s-about target-section">
-            <div class="row narrow section-intro has-bottom-sep">
-                <div class="col-full text-center">
-                    <h3>Logs</h3>
-                    <table class="table">
-                        <thead class="">
-                            <tr>
-                                <th scope="col">Shipment ID</th>
-                                <th scope="col">Event Description</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Start Date</th>
-                                <th scope="col">Start Time</th>
-                                <th scope="col">Volume Recorded</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>NOR tendered</td>
-                                <td>Origin</td>
-                                <td>12/02/1998</td>
-                                <td>15:12</td>
-                                <td>100</td>
-                            </tr>
-                            <tr>
-                                <td scope="row">{{this.shipmentId}}</td>
-                                <td>{{this.description}}</td>
-                                <td>{{this.location}}</td>
-                                <td>{{this.date}}</td>
-                                <td>{{this.time}}</td>
-                                <td>{{this.volumerecorded}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+        <section id="createAccount" class="s-about target-section">
             <div class="row about-content">
                 <div class="col-six tab-full left">
                     <h3>Shipment</h3>
@@ -222,7 +185,43 @@
                 </div>
             </div> <!-- end about-content -->
         </section> <!-- end about -->
-
+        <section class="s-about target-section">
+            <div class="row narrow section-intro has-bottom-sep">
+                <div class="col-full text-center">
+                    <h3>Logs</h3>
+                    <table class="table">
+                        <thead class="">
+                            <tr>
+                                <th scope="col">Shipment ID</th>
+                                <th scope="col">Event Description</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">Start Time</th>
+                                <th scope="col">Volume Recorded</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>NOR tendered</td>
+                                <td>Origin</td>
+                                <td>12/02/1998</td>
+                                <td>15:12</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">{{this.shipmentId}}</td>
+                                <td>{{this.description}}</td>
+                                <td>{{this.location}}</td>
+                                <td>{{this.date}}</td>
+                                <td>{{this.time}}</td>
+                                <td>{{this.volumerecorded}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
         <section id="blog" class="s-blog target-section">
 
             <div class="row narrow section-intro has-bottom-sep">
