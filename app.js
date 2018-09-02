@@ -207,26 +207,29 @@ app.post('/gk', isLoggedIn, (req, res) => {
         });
 });
 
-app.post('/comment', (req, res) => {
+app.post('/comment',isLoggedIn, (req, res) => {
+    console.log('Hi there ' + req.body.content);
     Comment.create(
         {
-            content: 'req.body.content',
-            author: 'req.body.author'
+            content: req.body.content,
+            author: req.session.userId,
+            parentId: req.body.parentId
         },
         (err, comment) => {
             if (!err) {
-                console.log('Root comment recorded');
-                if (req.body.commentId === '_root') {
+                if (req.body.parentId == null) {
+                    console.log('Root comment recorded');
                     return res.send(comment);
                 }
-                Comment.findById(req.body.commentId, (err, rootComment) => {
-                    rootComment.children.push(comment);
-                    rootComment.save((err, data) => {
+                Comment.findById(req.body.parentId, (err, parentComment) => {
+                    parentComment.children.push(comment);
+                    console.log('here');
+                    parentComment.save((err, data) => {
                         if (err) {
                             console.log(err);
                         } else {
                             console.log('Child comment recorded');
-                            res.send(data);
+                            res.send({ redirect: '/comment' });
                         }
                     });
                 });
@@ -237,9 +240,6 @@ app.post('/comment', (req, res) => {
     );
 });
 
-app.get('/comment', (req, res) => {
-    res.render('Feed');
-});
 app.get('/comment/:commentId', (req, res) => {
     function getComment(userId) {
         return Comment.findOne({ _id: userId })
@@ -249,6 +249,8 @@ app.get('/comment/:commentId', (req, res) => {
                 return bluebird.props({
                     author: user.author,
                     content: user.content,
+                    commentId: user._id,
+                    parentId: user.parentId,
                     children: bluebird.map(user.children, getComment)
                 });
             });
@@ -256,10 +258,12 @@ app.get('/comment/:commentId', (req, res) => {
 
     getComment(req.params.commentId).then(function(commentTree) {
         console.log(commentTree);
-        res.render('Feed');
+        res.end(`[${JSON.stringify(commentTree)}]`);
     });
 });
-
+app.get('/comment', (req, res) => {
+    res.render('Feed');
+});
 app.get('/endGame', (req, res) => {
     res.render('endGame');
 });

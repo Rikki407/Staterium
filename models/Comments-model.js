@@ -5,6 +5,7 @@ const commentSchema = new mongoose.Schema();
 commentSchema.add({
     author: String,
     content: String,
+    parentId: String,
     children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comment' }]
 });
 
