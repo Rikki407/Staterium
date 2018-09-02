@@ -271,7 +271,7 @@ app.get('/endGame', (req, res) => {
     res.render('endGame');
 });
 app.get('/index', (req, res) => {
-    res.render('index');
+    res.render('landing/index');
 });
 app.use(authRoutes);
 

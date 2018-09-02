@@ -1,0 +1,76 @@
+<div class="row">
+    <h1 style="color:white">Login</h1>
+</div>
+<div class="row about-content">
+    <div class="col-six tab-full left">
+        <h3 style="color:white">Metamask</h3>
+        <form name="contactForm" id="sform" method="post" action="/shipment">
+            <fieldset>
+                <div class="form-field">
+                    <input name="contactName" type="text" id="contactName" placeholder="Public Key" value="" minlength="2" required="" aria-required="true"
+                        class="full-width" style="border-bottom-color: white; color: white">
+                </div>
+
+                <div class="form-field">
+                    <div class="submit-loader">
+                        <div class="text-loader">Sending...</div>
+                        <div class="s-loader">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn full-width" data-target="#sform">Metamask Login</button>
+        </form>
+    </div>
+
+    <div class="col-six tab-full right">
+        <h3 style="color:white">Email</h3>
+        <form name="contactForm" id="tform" method="post" action="/transaction">
+            <fieldset>
+                <div class="form-field">
+                    <input name="contactName" type="text" id="contactName" placeholder="Email Address" value="" minlength="2" required="" aria-required="true"
+                        class="full-width" style="border-bottom-color: white; color: white">
+                </div>
+                <div class="form-field">
+                    <input name="contactName" type="text" id="contactName" placeholder="Password" value="" minlength="2" required="" aria-required="true"
+                        class="full-width" style="border-bottom-color: white; color: white">
+                </div>
+
+                <div class="form-field">
+                    <div class="submit-loader">
+                        <div class="text-loader">Sending...</div>
+                        <div class="s-loader">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn full-width" data-target="#tform">Email Login</button>
+        </form>
+
+    </div>
+</div> <!-- end about-content -->
+<div class="row" >
+    <h1 style="color:white; margin:0 auto"><strong>Or</strong></h1>
+</div>
+<div class="row about-content">
+    <div class="col-six tab-full left">
+        <h3 style="color:white">Google</h3>
+        <form name="contactForm" id="sform" method="post" action="/shipment">
+            <button type="submit" class="btn full-width" data-target="#sform">Signin With Google</button>
+        </form>
+    </div>
+
+    <div class="col-six tab-full right">
+        <h3 style="color:white">Facebook</h3>
+        <form name="contactForm" id="tform" method="post" action="/transaction">
+            <button type="submit" class="btn full-width" data-target="#tform">Signin With Facebook</button>
+        </form>
+
+    </div>
+</div> <!-- end about-content -->

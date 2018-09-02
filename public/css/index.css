@@ -4119,16 +4119,41 @@ article.blog-single .blog-content {
  * responsive:
  * comments
  * ------------------------------------------------------------------- */
-
+ svg {
+    height: 100px;
+    width: 100px;
+    display: block;
+    position: absolute;
+    top: 140%;
+    left: 40%;
+}
+@media only screen and (max-width: 1100px){
+    svg {
+        top: 140%;
+        left: 37%;
+    }
+}
 @media only screen and (max-width: 800px) {
     #comments form button {
         width: 100%;
+    }
+    svg {
+        top: 145%;
+        left: 43%;
     }
 }
 
 @media only screen and (max-width: 600px) {
     #comments h3 {
         text-align: center;
+    }
+    svg {
+        height: 120px;
+        width: 120px;
+        display: block;
+        position: absolute;
+        top: 140%;
+        left: 35%;
     }
     .commentlist > .comment {
         padding-left: 0;
@@ -4137,3 +4162,4 @@ article.blog-single .blog-content {
         display: none;
     }
 }
+
