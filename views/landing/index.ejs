@@ -9,7 +9,7 @@
     <!--- basic page needs
     ================================================== -->
     <meta charset="utf-8">
-    <title>Starterium</title>
+    <title>Startereum</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,9 +49,9 @@
         <nav class="header-nav-wrap">
             <ul class="header-nav">
                 <li class="current"><a class="smoothscroll" href="#home" title="home">Home</a></li>
-                <li><a class="smoothscroll" href="#createAccount" title="about">Logs</a></li>
-                <li><a class="smoothscroll" href="#blog" title="blog">Shipments</a></li>
-                <li><a class="smoothscroll" href="#contact" title="contact">Contact</a></li>
+                <li><a class="smoothscroll" href="#leaderBoard" title="about">Leader Board</a></li>
+                <li><a class="smoothscroll" href="#categories" title="about">Categories</a></li>
+                <li><a class="smoothscroll" href="#instructions" title="blog">Instructions</a></li>
             </ul>
         </nav>
 
@@ -100,52 +100,43 @@
     <section id="login" class="target-section">
         <% include login %>
     </section>
-    <section class="s-about target-section">
+    <section id="leaderBoard" class="s-about target-section">
         <div class="row narrow section-intro has-bottom-sep">
             <div class="col-full text-center">
-                <h3>Logs</h3>
+                <h3>Leader Board</h3>
                 <table class="table">
                     <thead class="">
                         <tr>
-                            <th scope="col">Shipment ID</th>
-                            <th scope="col">Event Description</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Start Date</th>
-                            <th scope="col">Start Time</th>
-                            <th scope="col">Volume Recorded</th>
+                            <th scope="col">Rank</th>
+                            <th scope="col">User Id</th>
+                            <th scope="col">Game</th>
+                            <th scope="col">Score</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row">1</th>
-                            <td>NOR tendered</td>
-                            <td>Origin</td>
-                            <td>12/02/1998</td>
-                            <td>15:12</td>
-                            <td>100</td>
+                            <td>ACD-123</td>
+                            <td>Demo One</td>
+                            <td>99</td>
                         </tr>
                         <tr>
-                            <td scope="row">{{this.shipmentId}}</td>
-                            <td>{{this.description}}</td>
-                            <td>{{this.location}}</td>
-                            <td>{{this.date}}</td>
-                            <td>{{this.time}}</td>
-                            <td>{{this.volumerecorded}}</td>
+                            <th scope="row">2</th>
+                            <td>ABD-321</td>
+                            <td>Demo One</td>
+                            <td>91</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
-    <section id="blog" class="s-blog target-section">
+    <section id="categories" class="s-blog target-section">
 
         <div class="row narrow section-intro has-bottom-sep">
             <div class="col-full">
-                <h3>Shipments</h3>
-                <h1>Latest Shipments.</h1>
-                <p class="lead">Lorem ipsum Dolor adipisicing nostrud et aute. Excepteur amet commodo ea dolore irure esse
-                    Duis nulla sint fugiat cillum ullamco proident aliquip quis qui voluptate dolore veniam Ut laborum non
-                    est in officia.</p>
+                <h1>Game Categories</h1>
+                <p class="lead">Following cards show the different categories of games</p>
             </div>
         </div>
 
@@ -155,74 +146,30 @@
                 <div class="blog-list block-1-2 block-tab-full">
                     <article class="col-block">
 
-                        <div class="blog-date">
-                            <a href="blog-single.html">Sept 16, 2017</a>
+                        <div class="blog-cat">
+                            <a>Game One</a>
                         </div>
-
-                        <h2 class="h01"><a href="blog-single.html">The 10 Golden Rules of Clean Simple Design.</a></h2>
+                        <h2 class="h01"><a href="">TWR</a></h2>
                         <p>
                             Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus. Donec
                             sollicitudin molestie malesuada. Vivamus magna justo, lacinia eget consectetur sed, convallis
                             at tellus. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh..
                         </p>
 
-                        <div class="blog-cat">
-                            <a href="blog.html">Branding</a><a href="blog.html">Design</a>
-                        </div>
-
-
                     </article>
+
                     <article class="col-block">
 
-                        <div class="blog-date">
-                            <a href="blog-single.html">Sept 15, 2017</a>
+                        <div class="blog-cat">
+                            <a>Game Two</a>
                         </div>
-
-                        <h2 class="h01"><a href="blog-single.html">Photography Can Improve Your Graphic Design.</a></h2>
+                        <h2 class="h01"><a href="">GK</a></h2>
                         <p>
                             Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus. Donec
                             sollicitudin molestie malesuada. Vivamus magna justo, lacinia eget consectetur sed, convallis
                             at tellus. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh..
                         </p>
 
-                        <div class="blog-cat">
-                            <a href="blog.html">Photography</a>
-                        </div>
-
-
-                    </article>
-                    <article class="col-block">
-
-                        <div class="blog-date">
-                            <a href="blog-single.html">Sept 14, 2017</a>
-                        </div>
-
-                        <h2 class="h01"><a href="blog-single.html">Workspace Design Trends and Ideas.</a></h2>
-                        <p>
-                            Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus. Donec
-                            sollicitudin molestie malesuada. Vivamus magna justo, lacinia eget consectetur sed, convallis
-                            at tellus. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh dolore irure
-                            esse Duis nulla sint.
-                        </p>
-
-                        <div class="blog-cat">
-                            <a href="blog.html">Branding</a><a href="blog.html">Wordpress</a>
-                        </div>
-                    </article>
-                    <article class="col-block">
-
-                        <div class="blog-date">
-                            <a href="blog-single.html">Sept 12, 2017</a>
-                        </div>
-                        <h2 class="h01"><a href="blog-single.html">Using Patterns in your Branding.</a></h2>
-                        <p>
-                            Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus. Donec
-                            sollicitudin molestie malesuada. Vivamus magna justo, lacinia eget consectetur sed, convallis
-                            at tellus. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh.
-                        </p>
-                        <div class="blog-cat">
-                            <a href="blog.html">Design</a><a href="blog.html">Branding</a>
-                        </div>
                     </article>
                 </div> <!-- end blog-list -->
 
@@ -230,16 +177,15 @@
         </div> <!-- end blog-content -->
 
     </section> <!-- end s-blog -->
-
     <!-- testimonials
     ================================================== -->
-    <div class="s-testimonials">
+    <div id="instructions" class="s-testimonials">
 
         <div class="overlay"></div>
 
         <div class="row testimonials-header">
             <div class="col-full">
-                <h1 class="h02">Parties Involved</h1>
+                <h1 class="h02">Instructions</h1>
             </div>
         </div>
 
@@ -248,36 +194,49 @@
             <div class="col-full testimonials__slider">
 
                 <div class="testimonials__slide">
-                    <img src="images/avatars/user-01.jpg" alt="Author image" class="testimonials__avatar">
+                    <img src="images/screen1.png" alt="Author image">
                     <p>Qui ipsam temporibus quisquam velMaiores eos cumque distinctio nam accusantium ipsum. Laudantium quia
                         consequatur molestias delectus culpa facere hic dolores aperiam. Accusantium quos qui praesentium
                         corpori.
                     </p>
                     <div class="testimonials__author h06">
-                        Tim Cook
-                        <span>CEO, Apple</span>
+                        #1 Instruction
+                        <span>Screen 1</span>
                     </div>
                 </div>
 
                 <div class="testimonials__slide">
-                    <img src="images/avatars/user-05.jpg" alt="Author image" class="testimonials__avatar">
-                    <p>Excepturi nam cupiditate culpa doloremque deleniti repellat. Veniam quos repellat voluptas animi adipisci.
-                        Nisi eaque consequatur. Quasi voluptas eius distinctio. Atque eos maxime. Qui ipsam temporibus quisquam
-                        vel.</p>
+                    <img src="images/screen2.png" alt="Author image">
+                    <p>Qui ipsam temporibus quisquam velMaiores eos cumque distinctio nam accusantium ipsum. Laudantium quia
+                        consequatur molestias delectus culpa facere hic dolores aperiam. Accusantium quos qui praesentium
+                        corpori.
+                    </p>
                     <div class="testimonials__author h06">
-                        Sundar Pichai
-                        <span>CEO, Google</span>
+                        #2 Instruction
+                        <span>Screen 2</span>
                     </div>
                 </div>
 
                 <div class="testimonials__slide">
-                    <img src="images/avatars/user-02.jpg" alt="Author image" class="testimonials__avatar">
-                    <p>Repellat dignissimos libero. Qui sed at corrupti expedita voluptas odit. Nihil ea quia nesciunt. Ducimus
-                        aut sed ipsam. Autem eaque officia cum exercitationem sunt voluptatum accusamus. Quasi voluptas eius
-                        distinctio.</p>
+                    <img src="images/screen1.png" alt="Author image">
+                    <p>Qui ipsam temporibus quisquam velMaiores eos cumque distinctio nam accusantium ipsum. Laudantium quia
+                        consequatur molestias delectus culpa facere hic dolores aperiam. Accusantium quos qui praesentium
+                        corpori.
+                    </p>
                     <div class="testimonials__author h06">
-                        Satya Nadella
-                        <span>CEO, Microsoft</span>
+                        #3 Instruction
+                        <span>Screen 3</span>
+                    </div>
+                </div>
+                <div class="testimonials__slide">
+                    <img src="images/screen2.png" alt="Author image">
+                    <p>Qui ipsam temporibus quisquam velMaiores eos cumque distinctio nam accusantium ipsum. Laudantium quia
+                        consequatur molestias delectus culpa facere hic dolores aperiam. Accusantium quos qui praesentium
+                        corpori.
+                    </p>
+                    <div class="testimonials__author h06">
+                        #4 Instruction
+                        <span>Screen 4</span>
                     </div>
                 </div>
 
@@ -295,15 +254,15 @@
 
             <div class="col-block stats__col ">
                 <div class="stats__count">
-                    128
+                    12
                 </div>
-                <h4>Awards Received</h4>
+                <h4>Sets Completed</h4>
             </div>
             <div class="col-block stats__col">
                 <div class="stats__count">
                     1500
                 </div>
-                <h4>Cups of Coffee</h4>
+                <h4>Companies Registered</h4>
             </div>
             <div class="col-block stats__col stats__col--highlight">
                 <div class="stats__upsign">
@@ -312,13 +271,13 @@
                 <div class="stats__count">
                     110
                 </div>
-                <h4>Projects Completed</h4>
+                <h4>Users Online</h4>
             </div>
             <div class="col-block stats__col">
                 <div class="stats__count">
-                    101
+                    12000
                 </div>
-                <h4>Happy Clients</h4>
+                <h4>STR Generated</h4>
             </div>
 
         </div>
