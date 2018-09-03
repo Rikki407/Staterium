@@ -5,8 +5,8 @@ module.exports = {
         clientSecret: 'sdGOmfivzMbhNQ7LkylQLUqP'
     },
     facebook: {
-        clientID: '320183602067024',
-        clientSecret: 'be40341e6d3198da50a47fe6beb42184'
+        clientID: '264775504371588',
+        clientSecret: '2da0709373ace54c4ea3942dcc40dfd5'
     },
     gmail: {
         password: 'radhakulkarni'
