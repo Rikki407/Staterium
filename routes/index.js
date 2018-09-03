@@ -8,8 +8,7 @@ const express = require('express'),
     User = require('../models/User-model');
 
 const keys = require('../config/configKeys');
-let req = {};
-console.log(process.env.GMAIL_PASSWORD);
+
 passport.use(
     new GoogleStrategy(
         {
@@ -19,7 +18,6 @@ passport.use(
         },
         (accessToken, refreshToken, profile, done) => {
             User.socialAuthenticate(profile.emails[0].value, (error, user) => {
-                console.log('HERE!!!!4', user);
                 if (user === null || user === undefined) {
                     const err = new Error('User Not Found');
                     err.status = 401;
@@ -44,10 +42,7 @@ passport.use(
             profileFields: ['id', 'emails', 'name']
         },
         function(accessToken, refreshToken, profile, done) {
-            console.log('Bitch :', profile);
             User.socialAuthenticate(profile.emails[0].value, (error, user) => {
-                console.log('HERE!!!!4', user);
-
                 if (user === null || user === undefined) {
                     const err = new Error('User Not Found');
                     err.status = 401;
@@ -250,9 +245,12 @@ router.get(
 router.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-        failureRedirect: '/login',
-        successRedirect: '/game'
-    })
+        failureRedirect: '/login'
+    }),
+    (req, res) => {
+        req.session.userId = req.session.passport.user._id;
+        return res.redirect('/game');
+    }
 );
 
 /*
@@ -265,9 +263,12 @@ router.get(
 router.get(
     '/auth/facebook/callback',
     passport.authenticate('facebook', {
-        successRedirect: '/game',
         failureRedirect: '/login'
-    })
+    }),
+    (req, res) => {
+        req.session.userId = req.session.passport.user._id;
+        return res.redirect('/game');
+    }
 );
 
 router.get('/logout', (req, res, next) => {
@@ -277,7 +278,7 @@ router.get('/logout', (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            return res.redirect('/login');
+            return res.redirect('/index');
         });
     }
 });

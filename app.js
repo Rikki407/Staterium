@@ -62,7 +62,7 @@ const isLoggedIn = (req, res, next) => {
             return res.redirect('/activateAccount');
         }
     } else {
-        return res.redirect('/login');
+        return res.redirect('/index');
     }
 };
 
