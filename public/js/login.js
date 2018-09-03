@@ -20,18 +20,18 @@ App = {
         App.displayAccountInfo();
     },
 
-    displayLoginInfo: () => {
+    displayAccountInfo: () => {
         web3.eth.getCoinbase((err, account) => {
             if (err === null) {
                 App.account = account;
                 //On the Register and Login Page
-                $('#publicKey2').val(account);
-                console.log($('#publicKey2').val());
-                App.login();
+                $('#publicKey').val(account);
+                console.log($('#publicKey').val());
+                App.sign();
             }
         });
     },
-    login: () => {
+    sign: () => {
         let signMessage = (publicAddress, nonce) => {
             return new Promise((resolve, reject) =>
                 web3.personal.sign(
@@ -44,7 +44,7 @@ App = {
                 )
             );
         };
-        let publicAddress = $('#publicKey2').val();
+        let publicAddress = $('#publicKey').val();
         let nonce = Math.floor(Math.random() * 1000000);
         $('#signin_btn').click(() => {
             signMessage(publicAddress, nonce).then(res => {
