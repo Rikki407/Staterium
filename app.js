@@ -218,7 +218,7 @@ app.post('/gk', isLoggedIn, (req, res) => {
         });
 });
 
-app.post('/comment', isLoggedIn, (req, res) => {
+app.post('/comment', (req, res) => {
     console.log('Hi there ' + req.body.content);
     Comment.create(
         {
