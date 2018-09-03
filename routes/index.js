@@ -1,6 +1,7 @@
 const express = require('express'),
     passport = require('passport'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
+    FacebookStrategy = require('passport-facebook').Strategy,
     router = express.Router(),
     ethUtil = require('ethereumjs-util'),
     nodemailer = require('nodemailer'),
@@ -34,6 +35,33 @@ passport.use(
     )
 );
 
+passport.use(
+    new FacebookStrategy(
+        {
+            clientID: keys.facebook.clientID,
+            clientSecret: keys.facebook.clientSecret,
+            callbackURL: 'http://localhost:5000/auth/facebook/callback',
+            profileFields: ['id', 'emails', 'name']
+        },
+        function(accessToken, refreshToken, profile, done) {
+            console.log('Bitch :', profile);
+            User.socialAuthenticate(profile.emails[0].value, (error, user) => {
+                console.log('HERE!!!!4', user);
+
+                if (user === null || user === undefined) {
+                    const err = new Error('User Not Found');
+                    err.status = 401;
+                    return;
+                } else if (error) {
+                    const err = new Error(error);
+                    err.status = 401;
+                    return;
+                }
+                return done(null, user);
+            });
+        }
+    )
+);
 //==Email Verification===
 const smtpTransport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -208,7 +236,9 @@ router.post('/login', (req, res, next) => {
     }
 });
 
-// Google Signin
+/*
+    Google Signin
+*/
 
 router.get(
     '/auth/google',
@@ -220,12 +250,27 @@ router.get(
 router.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-        failureRedirect: '/login',
+        failureRedirect: '/login'
     }),
     (req, res) => {
         req.session.userId = req.session.passport.user._id;
         return res.send('you have reached your destination');
     }
+);
+
+/*
+    Facebook Signin
+*/
+router.get(
+    '/auth/facebook',
+    passport.authenticate('facebook', { scope: 'email' })
+);
+router.get(
+    '/auth/facebook/callback',
+    passport.authenticate('facebook', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    })
 );
 
 router.get('/logout', (req, res, next) => {
