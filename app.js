@@ -1,20 +1,22 @@
 const express = require('express'),
     app = express(),
-    bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
-    session = require('express-session'),
-    MongoStore = require('connect-mongo')(session),
-    User = require('./models/User-model'),
-    seedDb = require('./seed'),
-    Game = require('./models/Game-model'),
-    Comment = require('./models/Comments-model'),
-    bluebird = require('bluebird');
+    passport = require('passport');
+(bodyParser = require('body-parser')),
+    (mongoose = require('mongoose')),
+    (session = require('express-session')),
+    (MongoStore = require('connect-mongo')(session)),
+    (User = require('./models/User-model')),
+    (seedDb = require('./seed')),
+    (Game = require('./models/Game-model')),
+    (Comment = require('./models/Comments-model')),
+    (bluebird = require('bluebird'));
 
 TWRx = require('./models/TWR-model');
 
 const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
 mongoose.connect(url);
 const db = mongoose.connection;
+
 app.use(
     session({
         secret: 'Minimlaborumeulaboreexcepteurquisnostrud',
@@ -26,6 +28,15 @@ app.use(
     })
 );
 
+app.use(passport.initialize());
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
+
 seedDb();
 app.set('view engine', 'ejs');
 
@@ -36,9 +47,7 @@ app.use(express.static(__dirname + '/public'));
 const authRoutes = require('./routes/index');
 
 const isLoggedIn = (req, res, next) => {
-
     if (req.session && req.session.userId) {
-
         if (req.session.active) {
             return next();
         } else if (req.session.active === undefined) {

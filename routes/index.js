@@ -15,12 +15,11 @@ passport.use(
         {
             clientID: keys.google.clientID,
             clientSecret: keys.google.clientSecret,
-            callbackURL: 'http://localhost:5000/home'
+            callbackURL: 'http://localhost:5000/auth/google/callback'
         },
-        function(accessToken, refreshToken, profile, done) {
-            User.findOrCreate({ googleId: profile.id }, function(err, user) {
-                return done(err, user);
-            });
+        (accessToken, refreshToken, profile, done) => {
+            console.log(profile);
+            return done(null, 'success');
         }
     )
 );
@@ -28,15 +27,15 @@ passport.use(
 router.get(
     '/auth/google',
     passport.authenticate('google', {
-        scope: ['https://www.googleapis.com/auth/plus.login']
+        scope: ['profile']
     })
 );
 
 router.get(
     '/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
-    function(req, res) {
-        res.redirect('/');
+    passport.authenticate('google'),
+    (req, res) => {
+        res.send('you have reached your destination');
     }
 );
 
