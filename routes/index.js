@@ -14,7 +14,7 @@ passport.use(
         {
             clientID: keys.google.clientID,
             clientSecret: keys.google.clientSecret,
-            callbackURL: 'http://localhost:5000/auth/google/callback'
+            callbackURL: 'https://startereum.herokuapp.com/auth/google/callback'
         },
         (accessToken, refreshToken, profile, done) => {
             User.socialAuthenticate(profile.emails[0].value, (error, user) => {
@@ -38,7 +38,7 @@ passport.use(
         {
             clientID: keys.facebook.clientID,
             clientSecret: keys.facebook.clientSecret,
-            callbackURL: 'http://localhost:5000/auth/facebook/callback',
+            callbackURL: 'https://startereum.herokuapp.com/auth/facebook/callback',
             profileFields: ['id', 'emails', 'name']
         },
         function(accessToken, refreshToken, profile, done) {
