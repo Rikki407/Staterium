@@ -250,12 +250,9 @@ router.get(
 router.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-        failureRedirect: '/login'
-    }),
-    (req, res) => {
-        req.session.userId = req.session.passport.user._id;
-        return res.send('you have reached your destination');
-    }
+        failureRedirect: '/login',
+        successRedirect: '/game'
+    })
 );
 
 /*
@@ -268,7 +265,7 @@ router.get(
 router.get(
     '/auth/facebook/callback',
     passport.authenticate('facebook', {
-        successRedirect: '/',
+        successRedirect: '/game',
         failureRedirect: '/login'
     })
 );
