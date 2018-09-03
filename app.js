@@ -1,15 +1,15 @@
 const express = require('express'),
     app = express(),
-    passport = require('passport');
-(bodyParser = require('body-parser')),
-    (mongoose = require('mongoose')),
-    (session = require('express-session')),
-    (MongoStore = require('connect-mongo')(session)),
-    (User = require('./models/User-model')),
-    (seedDb = require('./seed')),
-    (Game = require('./models/Game-model')),
-    (Comment = require('./models/Comments-model')),
-    (bluebird = require('bluebird'));
+    passport = require('passport'),
+    bodyParser = require('body-parser'),
+    mongoose = require('mongoose'),
+    session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
+    User = require('./models/User-model'),
+    seedDb = require('./seed'),
+    Game = require('./models/Game-model'),
+    Comment = require('./models/Comments-model'),
+    bluebird = require('bluebird');
 
 TWRx = require('./models/TWR-model');
 
@@ -272,6 +272,7 @@ app.get('/comment/:commentId', (req, res) => {
         res.end(`[${JSON.stringify(commentTree)}]`);
     });
 });
+
 app.get('/comment', (req, res) => {
     res.render('Feed');
 });

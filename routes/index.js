@@ -7,9 +7,8 @@ const express = require('express'),
     User = require('../models/User-model');
 
 const keys = require('../config/configKeys');
-
+let req = {};
 console.log(process.env.GMAIL_PASSWORD);
-
 passport.use(
     new GoogleStrategy(
         {
@@ -18,25 +17,21 @@ passport.use(
             callbackURL: 'http://localhost:5000/auth/google/callback'
         },
         (accessToken, refreshToken, profile, done) => {
-            console.log(profile);
-            return done(null, 'success');
+            User.socialAuthenticate(profile.emails[0].value, (error, user) => {
+                console.log('HERE!!!!4', user);
+                if (user === null || user === undefined) {
+                    const err = new Error('User Not Found');
+                    err.status = 401;
+                    return;
+                } else if (error) {
+                    const err = new Error(error);
+                    err.status = 401;
+                    return;
+                }
+                return done(null, user);
+            });
         }
     )
-);
-
-router.get(
-    '/auth/google',
-    passport.authenticate('google', {
-        scope: ['profile']
-    })
-);
-
-router.get(
-    '/auth/google/callback',
-    passport.authenticate('google'),
-    (req, res) => {
-        res.send('you have reached your destination');
-    }
 );
 
 //==Email Verification===
@@ -212,6 +207,27 @@ router.post('/login', (req, res, next) => {
         );
     }
 });
+
+// Google Signin
+
+router.get(
+    '/auth/google',
+    passport.authenticate('google', {
+        scope: ['profile', 'email']
+    })
+);
+
+router.get(
+    '/auth/google/callback',
+    passport.authenticate('google', {
+        failureRedirect: '/login',
+    }),
+    (req, res) => {
+        req.session.userId = req.session.passport.user._id;
+        return res.send('you have reached your destination');
+    }
+);
+
 router.get('/logout', (req, res, next) => {
     if (req.session) {
         // delete session object
