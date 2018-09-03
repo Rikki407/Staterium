@@ -1,6 +1,6 @@
 $.ajax({
     type: 'GET',
-    url: '/comment/5b8da13ce36f3263d6e05186',
+    url: '/comment/5b8da333d10eea0014c43f8c',
 
     success: data => {
         console.log(JSON.parse(data));
