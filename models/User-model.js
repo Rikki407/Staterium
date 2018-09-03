@@ -133,13 +133,11 @@ UserSchema.pre('save', function(next) {
 
 UserSchema.statics.socialAuthenticate = function(email, callback) {
     User.findOne({ email }).exec((err, user) => {
-        console.log('HERE!!!!!1', user);
         if (!user) {
             User.create({ email, active: true }, (err, user) => {
                 if (err) {
                     return callback(err);
                 }
-                console.log('HERE!!!!!2', user);
                 return callback(null, user);
             });
         } else {
