@@ -4,18 +4,18 @@
 <div class="row about-content">
     <div class="col-six tab-full left">
         <h3>Metamask</h3>
-        <form name="contactForm" id="sform" method="post" action="/shipment">
+        <form name="metamaskForm" id="rmform" method="post" action="/shipment">
             <fieldset>
                 <div class="form-field" style="visibility: hidden">
                     <input type="text" id="contactName" value="" minlength="2" aria-required="true"
                         class="full-width">
                 </div>
                 <div class="form-field">
-                    <input name="contactName" type="text" id="contactName" placeholder="Public Key" value="" minlength="2" required="" aria-required="true"
-                        class="full-width">
+                    <input name="ethAddress" type="text" id="publicKey" placeholder="Public Key (Picked From Metamask)" value="" minlength="2" required="" aria-required="true"
+                        class="full-width" readonly>
                 </div>
                 <div class="form-field">
-                    <input name="location" type="email" id="contactEmail" placeholder="Email Address" value="" required="" aria-required="true"
+                    <input name="email" type="email" id="email" placeholder="Email Address" value="" required="" aria-required="true"
                         class="full-width">
                 </div>
 
@@ -30,25 +30,25 @@
                     </div>
                 </div>
             </fieldset>
-            <button type="submit" class="btn btn--primary full-width" data-target="#sform">Metamask Signup</button>
+            <button type="submit" class="btn btn--primary full-width" id="signup_btn" data-target="#rmform">Metamask Signup</button>
         </form>
     </div>
 
     <div class="col-six tab-full right">
         <h3>Email</h3>
-        <form name="contactForm" id="tform" method="post" action="/transaction">
+        <form name="emailForm" id="reform" action="/register" method="POST">
             <fieldset>
                 <div class="form-field">
-                    <input name="contactName" type="text" id="contactName" placeholder="Email Address" value="" minlength="2" required="" aria-required="true"
+                    <input name="email" type="email" id="email2" placeholder="Email Address" value="" minlength="2" required="" aria-required="true"
                         class="full-width">
                 </div>
                 <div class="form-field">
-                    <input name="contactName" type="text" id="contactName" placeholder="Password" value="" minlength="2" required="" aria-required="true"
+                    <input name="password" type="password" id="password" placeholder="Password" value="" minlength="2" required="" aria-required="true"
                         class="full-width">
                 </div>
 
                 <div class="form-field">
-                    <input name="contactSubject" type="text" id="contactSubject" placeholder="Confirm Password" value="" class="full-width">
+                    <input type="password" placeholder="Confirm Password" value="" class="full-width">
                 </div>
 
                 <div class="form-field">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </fieldset>
-            <button type="submit" class="btn btn--primary full-width" data-target="#tform">Email Signup</button>
+            <button type="submit" class="btn btn--primary full-width" data-target="#reform">Email Signup</button>
         </form>
 
     </div>
