@@ -7,8 +7,8 @@
         <form name="contactForm" id="lmform" method="post" action="/shipment">
             <fieldset>
                 <div class="form-field">
-                    <input name="contactName" type="text" id="contactName" placeholder="Public Key" value="" minlength="2" required="" aria-required="true"
-                        class="full-width" style="border-bottom-color: white; color: white">
+                    <input name="ethAddress" type="text" id="publicKey2" placeholder="Public Key" value="" minlength="2" required="" aria-required="true"
+                        class="full-width" style="border-bottom-color: white; color: white" readonly>
                 </div>
 
                 <div class="form-field">
@@ -22,20 +22,20 @@
                     </div>
                 </div>
             </fieldset>
-            <button type="submit" class="btn full-width" data-target="#lmform">Metamask Login</button>
+            <button type="submit" class="btn full-width" id="signin_btn" data-target="#lmform">Metamask Login</button>
         </form>
     </div>
 
     <div class="col-six tab-full right">
         <h3 style="color:white">Email</h3>
-        <form name="contactForm" id="tform" method="post" action="/transaction">
+        <form name="contactForm" id="leform" action="/login" method="POST">
             <fieldset>
                 <div class="form-field">
-                    <input name="email" type="email" id="email2" placeholder="Email Address" value="" minlength="2" required="" aria-required="true"
+                    <input name="email" type="email" placeholder="Email Address" value="" minlength="2" required="" aria-required="true"
                         class="full-width" style="border-bottom-color: white; color: white">
                 </div>
                 <div class="form-field">
-                    <input name="contactName" type="text" id="contactName" placeholder="Password" value="" minlength="2" required="" aria-required="true"
+                    <input name="password" type="password" placeholder="Password" value="" minlength="2" required="" aria-required="true"
                         class="full-width" style="border-bottom-color: white; color: white">
                 </div>
 
@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </fieldset>
-            <button type="submit" class="btn full-width" data-target="#tform">Email Login</button>
+            <button type="submit" class="btn full-width" data-target="#leform">Email Login</button>
         </form>
 
     </div>
