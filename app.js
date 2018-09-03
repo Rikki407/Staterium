@@ -38,7 +38,6 @@ const authRoutes = require('./routes/index');
 const isLoggedIn = (req, res, next) => {
 
     if (req.session && req.session.userId) {
-        console.log('You came here bitch');
 
         if (req.session.active) {
             return next();
