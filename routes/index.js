@@ -1,10 +1,44 @@
 const express = require('express'),
+    passport = require('passport'),
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     router = express.Router(),
     ethUtil = require('ethereumjs-util'),
     nodemailer = require('nodemailer'),
     User = require('../models/User-model');
 
+const keys = require('../config/configKeys');
+
 console.log(process.env.GMAIL_PASSWORD);
+
+passport.use(
+    new GoogleStrategy(
+        {
+            clientID: keys.google.clientID,
+            clientSecret: keys.google.clientSecret,
+            callbackURL: 'http://localhost:5000/home'
+        },
+        function(accessToken, refreshToken, profile, done) {
+            User.findOrCreate({ googleId: profile.id }, function(err, user) {
+                return done(err, user);
+            });
+        }
+    )
+);
+
+router.get(
+    '/auth/google',
+    passport.authenticate('google', {
+        scope: ['https://www.googleapis.com/auth/plus.login']
+    })
+);
+
+router.get(
+    '/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function(req, res) {
+        res.redirect('/');
+    }
+);
 
 //==Email Verification===
 const smtpTransport = nodemailer.createTransport({
@@ -12,7 +46,7 @@ const smtpTransport = nodemailer.createTransport({
     auth: {
         type: 'login', // default
         user: 'rishablamba407@gmail.com',
-        pass: 'radhakulkarni'
+        pass: keys.gmail.password
     }
 });
 let host;
