@@ -9,6 +9,6 @@ module.exports = {
         clientSecret: '2da0709373ace54c4ea3942dcc40dfd5'
     },
     gmail: {
-        password: 'radhakulkarni'
+        password: 'iloveradha'
     }
 };
