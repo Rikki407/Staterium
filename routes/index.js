@@ -122,7 +122,7 @@ router.get('/activateAccount', (req, res) => {
 //==============
 
 router.get('/', (req, res) => {
-    res.render('home');
+    res.render('landing/index');
 });
 
 router.get('/register', (req, res) => {
