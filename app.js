@@ -70,7 +70,7 @@ const isLoggedIn = (req, res, next) => {
 // Game Routes
 //////
 app.get('/game', isLoggedIn, (req, res) => {
-    User.findById(req.session.userId, (erroror, user) => {
+    User.findById(req.session.userId, (error, user) => {
         if (user.G_index === -1) {
             user.G_index += 1;
         }
@@ -90,7 +90,7 @@ app.get('/game', isLoggedIn, (req, res) => {
     });
 });
 app.get('/game/next', isLoggedIn, (req, res) => {
-    User.findById(req.session.userId, (erroror, user) => {
+    User.findById(req.session.userId, (error, user) => {
         user.G_index += 1;
         req.session.G_index = user.G_index;
         user.save(error => {
@@ -107,7 +107,7 @@ app.get('/game/next', isLoggedIn, (req, res) => {
     });
 });
 app.get('/game/prev', isLoggedIn, (req, res) => {
-    User.findById(req.session.userId, (erroror, user) => {
+    User.findById(req.session.userId, (error, user) => {
         console.log('prev' + user.G_index);
         user.G_index -= 1;
         req.session.G_index = user.G_index;
@@ -137,7 +137,7 @@ app.get('/twr', isLoggedIn, (req, res) => {
         });
 });
 app.post('/twr', isLoggedIn, (req, res) => {
-    User.findById(req.session.userId, (erroror, user) => {
+    User.findById(req.session.userId, (error, user) => {
         user.stakedProjects.push({
             twrIndex: req.session.G_index,
             project: req.body.project, // either 0 or 1 for project A or B
