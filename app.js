@@ -51,7 +51,7 @@ const isLoggedIn = (req, res, next) => {
         if (req.session.active) {
             return next();
         } else if (req.session.active === undefined) {
-            User.findById(req.session.userId, (err, user) => {
+            User.findById(req.session.userId, (error, user) => {
                 if (user.active) {
                     req.session.active = true;
                     return next();
@@ -74,9 +74,9 @@ app.get('/game', isLoggedIn, (req, res) => {
         if (user.G_index === -1) {
             user.G_index += 1;
         }
-        user.save(err => {
-            if (err) {
-                console.log(err);
+        user.save(error => {
+            if (error) {
+                console.log(error);
             } else {
                 req.session.G_index = user.G_index;
                 console.log('game' + user.G_index);
@@ -93,9 +93,9 @@ app.get('/game/next', isLoggedIn, (req, res) => {
     User.findById(req.session.userId, (error, user) => {
         user.G_index += 1;
         req.session.G_index = user.G_index;
-        user.save(err => {
-            if (err) {
-                console.log(err);
+        user.save(error => {
+            if (error) {
+                console.log(error);
             } else {
                 if (user.G_index % 2 === 0) {
                     res.redirect('/twr');
@@ -111,9 +111,9 @@ app.get('/game/prev', isLoggedIn, (req, res) => {
         console.log('prev' + user.G_index);
         user.G_index -= 1;
         req.session.G_index = user.G_index;
-        user.save(err => {
-            if (err) {
-                console.log(err);
+        user.save(error => {
+            if (error) {
+                console.log(error);
             } else {
                 if (user.G_index % 2 === 0) {
                     return res.redirect('/twr');
@@ -127,7 +127,7 @@ app.get('/game/prev', isLoggedIn, (req, res) => {
 app.get('/twr', isLoggedIn, (req, res) => {
     Game.find({})
         .populate('TWRs')
-        .exec((err, game) => {
+        .exec((error, game) => {
             let TWR = game[0].TWRs[req.session.G_index / 2];
             if (TWR === null || TWR === undefined) {
                 res.redirect('/endGame');
@@ -143,15 +143,15 @@ app.post('/twr', isLoggedIn, (req, res) => {
             project: req.body.project, // either 0 or 1 for project A or B
             value: req.body.value
         });
-        user.save(err => {
-            if (err) {
-                console.log(err);
-                return res.send(err);
+        user.save(error => {
+            if (error) {
+                console.log(error);
+                return res.send(error);
             }
-            Game.find({}, (err, game) => {
-                TWRx.findById(game[0].TWRs[0], (err, twr) => {
+            Game.find({}, (error, game) => {
+                TWRx.findById(game[0].TWRs[0], (error, twr) => {
                     if (twr === null || twr === undefined) {
-                        return res.send(err);
+                        return res.send(error);
                     } else {
                     }
                     if (req.body.project == 0) {
@@ -164,9 +164,9 @@ app.post('/twr', isLoggedIn, (req, res) => {
                         twr.projectA.usersStaked,
                         twr.projectB.usersStaked
                     );
-                    twr.save(err => {
-                        if (err) {
-                            return res.send(err);
+                    twr.save(error => {
+                        if (error) {
+                            return res.send(error);
                         }
                         if (
                             twr.projectA.usersStaked >
@@ -191,7 +191,7 @@ app.post('/twr', isLoggedIn, (req, res) => {
 app.get('/gk', isLoggedIn, (req, res) => {
     Game.find({})
         .populate('GKs')
-        .exec((err, game) => {
+        .exec((error, game) => {
             let GK = game[0].GKs[Math.floor(req.session.G_index / 2)];
             if (GK === null || GK === undefined) {
                 res.redirect('/');
@@ -204,7 +204,7 @@ app.get('/gk', isLoggedIn, (req, res) => {
 app.post('/gk', isLoggedIn, (req, res) => {
     Game.find({})
         .populate('GKs')
-        .exec((err, game) => {
+        .exec((error, game) => {
             let GK = game[0].GKs[Math.floor(req.session.G_index / 2)];
             console.log(GK.correctAnswerIndex + '  ' + req.body.answer);
             if (req.body.answer === undefined) {
@@ -226,18 +226,18 @@ app.post('/comment', (req, res) => {
             author: req.session.userId,
             parentId: req.body.parentId
         },
-        (err, comment) => {
-            if (!err) {
+        (error, comment) => {
+            if (!error) {
                 if (req.body.parentId == null) {
                     console.log('Root comment recorded');
                     return res.send(comment);
                 }
-                Comment.findById(req.body.parentId, (err, parentComment) => {
+                Comment.findById(req.body.parentId, (error, parentComment) => {
                     parentComment.children.push(comment);
                     console.log('here');
-                    parentComment.save((err, data) => {
-                        if (err) {
-                            console.log(err);
+                    parentComment.save((error, data) => {
+                        if (error) {
+                            console.log(error);
                         } else {
                             console.log('Child comment recorded');
                             res.send({ redirect: '/comment' });
@@ -245,7 +245,7 @@ app.post('/comment', (req, res) => {
                     });
                 });
             } else {
-                console.log(err);
+                console.log(error);
             }
         }
     );
