@@ -48,7 +48,7 @@ passport.deserializeUser(function (user, done) {
     done(null, user);
 });
 
-seedDb();
+//seedDb();
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
