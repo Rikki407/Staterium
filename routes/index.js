@@ -12,9 +12,10 @@ const keys = require('../config/configKeys');
 passport.use(
     new GoogleStrategy(
         {
-            clientID: keys.google.clientID,
-            clientSecret: keys.google.clientSecret,
-            callbackURL: 'https://startereum.herokuapp.com/auth/google/callback'
+            clientID: process.env.GID || keys.google.clientID,
+            clientSecret: process.env.GCS || keys.google.clientSecret,
+            callbackURL:
+                'https://startereum.herokuapp.com/auth/google/callback',
         },
         (accessToken, refreshToken, profile, done) => {
             User.socialAuthenticate(profile.emails[0].value, (error, user) => {
@@ -36,12 +37,13 @@ passport.use(
 passport.use(
     new FacebookStrategy(
         {
-            clientID: keys.facebook.clientID,
-            clientSecret: keys.facebook.clientSecret,
-            callbackURL: 'https://startereum.herokuapp.com/auth/facebook/callback',
-            profileFields: ['id', 'emails', 'name']
+            clientID: process.env.FID || keys.facebook.clientID,
+            clientSecret: process.env.FCS || keys.facebook.clientSecret,
+            callbackURL:
+                'https://startereum.herokuapp.com/auth/facebook/callback',
+            profileFields: ['id', 'emails', 'name'],
         },
-        function(accessToken, refreshToken, profile, done) {
+        function (accessToken, refreshToken, profile, done) {
             User.socialAuthenticate(profile.emails[0].value, (error, user) => {
                 if (user === null || user === undefined) {
                     const err = new Error('User Not Found');
@@ -63,8 +65,8 @@ const smtpTransport = nodemailer.createTransport({
     auth: {
         type: 'login', // default
         user: 'rishablamba407@gmail.com',
-        pass: keys.gmail.password
-    }
+        pass: process.env.PASSWORD || keys.gmail.password,
+    },
 });
 let host;
 const sendVerificationMail = (user, host) => {
@@ -74,11 +76,11 @@ const sendVerificationMail = (user, host) => {
         subject: 'Please confirm your Email account',
         html: `Hello,<br> Please Click on the link to verify your email.<br><a href=
                             ${link}
-                            >Click here to verify</a>`
+                            >Click here to verify</a>`,
     };
     console.log(mailOptions);
 
-    smtpTransport.sendMail(mailOptions, function(error, response) {
+    smtpTransport.sendMail(mailOptions, function (error, response) {
         if (error) {
             console.log(error);
         } else {
@@ -98,7 +100,7 @@ router.get('/verify', (req, res) => {
                 user.active = true;
                 req.session.active = true;
                 console.log('email is verified' + req.session.active);
-                user.save(err => {
+                user.save((err) => {
                     if (err) {
                         res.send(err);
                     } else {
@@ -160,7 +162,7 @@ router.post('/register', (req, res, next) => {
         console.log('hehehehe' + req.body.password);
         const userData = {
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
         };
         //use schema.create to insert data into the db
         User.create(userData, (err, user) => {
@@ -174,7 +176,7 @@ router.post('/register', (req, res, next) => {
     } else if (req.body.ethAddress && req.body.nonce && req.body.signature) {
         const userData = {
             ethAddress: req.body.ethAddress,
-            email: req.body.email
+            email: req.body.email,
         };
         if (
             verifySignature(
@@ -238,14 +240,14 @@ router.post('/login', (req, res, next) => {
 router.get(
     '/auth/google',
     passport.authenticate('google', {
-        scope: ['profile', 'email']
+        scope: ['profile', 'email'],
     })
 );
 
 router.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-        failureRedirect: '/login'
+        failureRedirect: '/login',
     }),
     (req, res) => {
         req.session.userId = req.session.passport.user._id;
@@ -263,7 +265,7 @@ router.get(
 router.get(
     '/auth/facebook/callback',
     passport.authenticate('facebook', {
-        failureRedirect: '/login'
+        failureRedirect: '/login',
     }),
     (req, res) => {
         req.session.userId = req.session.passport.user._id;
@@ -274,7 +276,7 @@ router.get(
 router.get('/logout', (req, res, next) => {
     if (req.session) {
         // delete session object
-        req.session.destroy(err => {
+        req.session.destroy((err) => {
             if (err) {
                 return next(err);
             }
