@@ -27,7 +27,7 @@ client.connect((err) => {
         console.log(err);
     }
 });
-const db = mongoose.connection;
+const db = client.connection;
 app.use(
     session({
         secret: 'Minimlaborumeulaboreexcepteurquisnostrud',
