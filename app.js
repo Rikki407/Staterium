@@ -13,27 +13,38 @@ const express = require('express'),
 
 const TWRx = require('./models/TWR-model');
 
-const url = 'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?retryWrites=true&w=majority';
-mongoose.connect(url, { useNewUrlParser: true });
-const db = mongoose.connection;
+// const url =
+//     'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?retryWrites=true&w=majority';
+// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
+const MongoClient = require('mongodb').MongoClient;
+
+const uri =
+    'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?w=majority';
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect((err) => {
+    if (err) {
+        console.log(err);
+    }
+});
+const db = mongoose.connection;
 app.use(
     session({
         secret: 'Minimlaborumeulaboreexcepteurquisnostrud',
         resave: false,
         saveUninitialized: false,
         store: new MongoStore({
-            mongooseConnection: db
-        })
+            mongooseConnection: db,
+        }),
     })
 );
 
 app.use(passport.initialize());
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
     done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
     done(null, user);
 });
 
@@ -74,7 +85,7 @@ app.get('/game', isLoggedIn, (req, res) => {
         if (user.G_index === -1) {
             user.G_index += 1;
         }
-        user.save(err => {
+        user.save((err) => {
             if (err) {
                 console.log(err);
             } else {
@@ -93,7 +104,7 @@ app.get('/game/next', isLoggedIn, (req, res) => {
     User.findById(req.session.userId, (error, user) => {
         user.G_index += 1;
         req.session.G_index = user.G_index;
-        user.save(err => {
+        user.save((err) => {
             if (err) {
                 console.log(err);
             } else {
@@ -111,7 +122,7 @@ app.get('/game/prev', isLoggedIn, (req, res) => {
         console.log('prev' + user.G_index);
         user.G_index -= 1;
         req.session.G_index = user.G_index;
-        user.save(err => {
+        user.save((err) => {
             if (err) {
                 console.log(err);
             } else {
@@ -141,9 +152,9 @@ app.post('/twr', isLoggedIn, (req, res) => {
         user.stakedProjects.push({
             twrIndex: req.session.G_index,
             project: req.body.project, // either 0 or 1 for project A or B
-            value: req.body.value
+            value: req.body.value,
         });
-        user.save(err => {
+        user.save((err) => {
             if (err) {
                 console.log(err);
                 return res.send(err);
@@ -164,7 +175,7 @@ app.post('/twr', isLoggedIn, (req, res) => {
                         twr.projectA.usersStaked,
                         twr.projectB.usersStaked
                     );
-                    twr.save(err => {
+                    twr.save((err) => {
                         if (err) {
                             return res.send(err);
                         }
@@ -224,7 +235,7 @@ app.post('/comment', (req, res) => {
         {
             content: req.body.content,
             author: req.session.userId,
-            parentId: req.body.parentId
+            parentId: req.body.parentId,
         },
         (err, comment) => {
             if (!err) {
@@ -256,18 +267,18 @@ app.get('/comment/:commentId', (req, res) => {
         return Comment.findOne({ _id: userId })
             .lean()
             .exec()
-            .then(user => {
+            .then((user) => {
                 return bluebird.props({
                     author: user.author,
                     content: user.content,
                     commentId: user._id,
                     parentId: user.parentId,
-                    children: bluebird.map(user.children, getComment)
+                    children: bluebird.map(user.children, getComment),
                 });
             });
     }
 
-    getComment(req.params.commentId).then(function(commentTree) {
+    getComment(req.params.commentId).then(function (commentTree) {
         console.log(commentTree);
         res.end(`[${JSON.stringify(commentTree)}]`);
     });
