@@ -14,22 +14,9 @@ const express = require('express'),
 const TWRx = require('./models/TWR-model');
 
 const url =
-    'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?retryWrites=true&w=majority';
+    'mongodb://rikki:rikki407@ds257851.mlab.com:57851/startereum';
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
-//const MongoClient = require('mongodb').MongoClient;
-
-// const uri =
-//     'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?retryWrites=true&w=majority';
-// const client = new MongoClient(uri, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// });
-// client.connect((err) => {
-//     if (err) {
-//         console.log(err);
-//     }
-// });
 const db = mongoose.connection;
 app.use(
     session({
@@ -302,4 +289,4 @@ app.use(authRoutes);
 app.get('*', (req, res) => {
     res.send('Oops ! ! ! !');
 });
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 3000);
