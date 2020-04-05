@@ -11,9 +11,9 @@ const express = require('express'),
     Comment = require('./models/Comments-model'),
     bluebird = require('bluebird');
 
-TWRx = require('./models/TWR-model');
+const TWRx = require('./models/TWR-model');
 
-const url = process.env.DATABASEURL || 'mongodb://localhost/Startereum';
+const url = 'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?retryWrites=true&w=majority';
 mongoose.connect(url);
 const db = mongoose.connection;
 

@@ -12,10 +12,10 @@ const keys = require('../config/configKeys');
 passport.use(
     new GoogleStrategy(
         {
-            clientID: process.env.GID,
-            clientSecret: process.env.GCS,
+            clientID: process.env.GID || keys.google.clientID,
+            clientSecret: process.env.GCS || keys.google.clientSecret,
             callbackURL:
-                'https://startereum.herokuapp.com/auth/google/callback',
+                'http://localhost:5000/auth/google/callback',
         },
         (accessToken, refreshToken, profile, done) => {
             User.socialAuthenticate(profile.emails[0].value, (error, user) => {
@@ -37,10 +37,10 @@ passport.use(
 passport.use(
     new FacebookStrategy(
         {
-            clientID: process.env.FID,
-            clientSecret: process.env.FCS,
+            clientID: process.env.FID || keys.facebook.clientID,
+            clientSecret: process.env.FCS || keys.facebook.clientSecret,
             callbackURL:
-                'https://startereum.herokuapp.com/auth/facebook/callback',
+                'http://localhost:5000/auth/facebook/callback',
             profileFields: ['id', 'emails', 'name'],
         },
         function (accessToken, refreshToken, profile, done) {
@@ -65,7 +65,7 @@ const smtpTransport = nodemailer.createTransport({
     auth: {
         type: 'login', // default
         user: 'rishablamba407@gmail.com',
-        pass: process.env.PASSWORD
+        pass: process.env.PASSWORD || keys.gmail.password,
     },
 });
 let host;
