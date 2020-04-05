@@ -14,7 +14,7 @@ const express = require('express'),
 const TWRx = require('./models/TWR-model');
 
 const url = 'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?retryWrites=true&w=majority';
-mongoose.connect(url);
+mongoose.connect(url, { useNewUrlParser: true });
 const db = mongoose.connection;
 
 app.use(
