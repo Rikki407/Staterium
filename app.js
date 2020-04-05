@@ -20,8 +20,8 @@ const TWRx = require('./models/TWR-model');
 const MongoClient = require('mongodb').MongoClient;
 
 const uri =
-    'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?w=majority';
-const client = new MongoClient(uri, { useNewUrlParser: true });
+    'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?retryWrites=true&w=majority';
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect((err) => {
     if (err) {
         console.log(err);
