@@ -40,7 +40,7 @@ passport.use(
             clientID: process.env.FID || keys.facebook.clientID,
             clientSecret: process.env.FCS || keys.facebook.clientSecret,
             callbackURL:
-                'https://startereum.herokuapp.com/facebook/callback',
+                'https://startereum.herokuapp.com/auth/facebook/callback',
             profileFields: ['id', 'emails', 'name'],
         },
         function (accessToken, refreshToken, profile, done) {

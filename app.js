@@ -13,21 +13,24 @@ const express = require('express'),
 
 const TWRx = require('./models/TWR-model');
 
-// const url =
-//     'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?retryWrites=true&w=majority';
-// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-
-const MongoClient = require('mongodb').MongoClient;
-
-const uri =
+const url =
     'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?retryWrites=true&w=majority';
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect((err) => {
-    if (err) {
-        console.log(err);
-    }
-});
-const db = client.connection;
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
+//const MongoClient = require('mongodb').MongoClient;
+
+// const uri =
+//     'mongodb+srv://Rikki407:Rikki407@cluster0-zmcqk.mongodb.net/test?retryWrites=true&w=majority';
+// const client = new MongoClient(uri, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+// });
+// client.connect((err) => {
+//     if (err) {
+//         console.log(err);
+//     }
+// });
+const db = mongoose.connection;
 app.use(
     session({
         secret: 'Minimlaborumeulaboreexcepteurquisnostrud',
@@ -35,6 +38,7 @@ app.use(
         saveUninitialized: false,
         store: new MongoStore({
             mongooseConnection: db,
+            collection: 'session',
         }),
     })
 );
