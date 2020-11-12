@@ -9,6 +9,31 @@
 </p>
 <img src="https://lh3.googleusercontent.com/iZhYwILy2jcifZIo-WSqDOt-hSxIot7hTEuRx05TcVvwf6rYN8jU-La8m6La9sH3MKZw6ns8zszm66mlMg_FM0elUBYx66SUlopobIY7AxIPsVyLRX53iFnOIXFG_EhNryiUWlOo" />
 
+## Installation
+
+1. Install Truffle globally.
+    ```javascript
+    npm install -g truffle
+    ```
+
+
+2. Run the development console.
+    ```javascript
+    truffle develop
+    ```
+
+3. Compile and migrate the smart contracts. Note inside the development console we don't preface commands with `truffle`.
+    ```javascript
+    compile
+    migrate
+    ```
+
+4. Run the `liteserver` development server (outside the development console) for front-end hot reloading. Smart contract changes must be manually recompiled and migrated.
+    ```javascript
+    // Serves the front-end on http://localhost:3000
+    npm run dev
+    ```
+
 
 <h2> Hey there! I'm Rishab Lamba. <img src="https://github.com/souvikguria98/souvikguria98/blob/master/Hi.gif" width="25"></h2>
 <img align="right" alt="GIF" src="https://raw.githubusercontent.com/devSouvik/devSouvik/master/gif3.gif" width="500"/>
@@ -46,27 +71,3 @@
 &nbsp; <a href="mailto:rshblamba@gmail.com" target="_blank" rel="noopener noreferrer"><img src="https://img.icons8.com/plasticine/100/000000/gmail.png"  width="50" /></a>
 </p>
 
-## Installation
-
-1. Install Truffle globally.
-    ```javascript
-    npm install -g truffle
-    ```
-
-
-2. Run the development console.
-    ```javascript
-    truffle develop
-    ```
-
-3. Compile and migrate the smart contracts. Note inside the development console we don't preface commands with `truffle`.
-    ```javascript
-    compile
-    migrate
-    ```
-
-4. Run the `liteserver` development server (outside the development console) for front-end hot reloading. Smart contract changes must be manually recompiled and migrated.
-    ```javascript
-    // Serves the front-end on http://localhost:3000
-    npm run dev
-    ```
