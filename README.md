@@ -2,7 +2,7 @@
 <h2>Live Project Link: <a href="https://startereum.herokuapp.com/">https://startereum.herokuapp.com </a></h2>
 
 
-<p>This was the first prototype for a landing page that Startereum. In this project, I not only dealt with various authentication systems (Google, Facebook, Email) but also developed my very own auth system from scratch using metamask. Writing the code from scratch helped me appreciate all the thought process that is required for secure access. Other common features like creating sessions, complex models for MongoDB, email verification etc were also implemented.
+<p>This was the first prototype for Startereum, a platform for early stage token discovery, evaluation and purchase. In this project, I not only dealt with various authentication systems (Google, Facebook, Email) but also developed my very own auth system from scratch using metamask. Writing the code from scratch helped me appreciate all the thought process that is required for secure access. Other common features like creating sessions, complex models for MongoDB, email verification etc were also implemented.
 </p>
 <p>
     One of the features that I would like to stress upon would be the Feed. This feature is styled with the Reddit’s comment section in mind i.e infinite nested comments for users to comment on the games that they played. To implement this it required adept knowledge of data-structures and Mongo DB.
